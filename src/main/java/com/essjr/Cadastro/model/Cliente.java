@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "cliente_tb")
 public class Cliente extends Pessoa{
 
     private LocalDate dataRegistro = LocalDate.now();

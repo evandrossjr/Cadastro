@@ -2,6 +2,8 @@ package com.essjr.Cadastro.model;
 
 import jakarta.persistence.*;
 
+@Entity
+@Table(name = "email_tb")
 public class EmailCadastro {
 
     @Id
@@ -14,6 +16,12 @@ public class EmailCadastro {
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
+
+    @ManyToOne
+    @JoinColumn(name = "contato_id")
+    private Contato contato;
+
+
 
     public Long getId() {
         return id;
@@ -37,5 +45,13 @@ public class EmailCadastro {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public Contato getContato() {
+        return contato;
+    }
+
+    public void setContato(Contato contato) {
+        this.contato = contato;
     }
 }

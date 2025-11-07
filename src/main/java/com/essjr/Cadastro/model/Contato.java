@@ -1,15 +1,13 @@
 package com.essjr.Cadastro.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "contato_tb")
 public class Contato extends Pessoa{
 
 
@@ -20,6 +18,13 @@ public class Contato extends Pessoa{
     public Contato() {
     }
 
+    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Telefone> telefones = new HashSet<>();
+
+    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<EmailCadastro> emails = new HashSet<>();
+
+
     //Getters & Setters
     public Cliente getCliente() {
         return cliente;
@@ -27,5 +32,25 @@ public class Contato extends Pessoa{
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    @Override
+    public Set<Telefone> getTelefones() {
+        return telefones;
+    }
+
+    @Override
+    public void setTelefones(Set<Telefone> telefones) {
+        this.telefones = telefones;
+    }
+
+    @Override
+    public Set<EmailCadastro> getEmails() {
+        return emails;
+    }
+
+    @Override
+    public void setEmails(Set<EmailCadastro> emails) {
+        this.emails = emails;
     }
 }

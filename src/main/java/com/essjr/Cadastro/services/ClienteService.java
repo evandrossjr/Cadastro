@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,10 +31,10 @@ public class ClienteService {
 
 
     @Transactional(readOnly = true)
-    public ClienteDTO findById(Long id){
-        Cliente cliente = clienteRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Cliente não encontrado"));
+    public Optional<ClienteDTO> findById(Long id){
+        Optional<ClienteDTO> cliente = clienteRepository.findById(id).map(ClienteDTO::fromEntity);
 
-        return ClienteDTO.fromEntity(cliente);
+        return cliente;
     }
 
     @Transactional(readOnly = true)
@@ -41,11 +43,12 @@ public class ClienteService {
         return clientes.stream().map(ClienteDTO::fromEntity).collect(Collectors.toList());
     }
 
+
     @Transactional
-    public ClienteDTO save(ClienteDTO dto){
+    public ClienteDTO save(ClienteDTO dto) {
         Cliente cliente = new Cliente();
         cliente.setNomeCompleto(dto.getNomeCompleto());
-        cliente.setDataRegistro(dto.getDataRegistro());
+        cliente.setDataRegistro(LocalDate.now());
 
         if (dto.getTelefones() != null) {
             Set<Telefone> tels = dto.getTelefones().stream().map(num -> {
@@ -57,7 +60,7 @@ public class ClienteService {
             cliente.setTelefones(tels);
         }
 
-        if (dto .getEmails() != null) {
+        if (dto.getEmails() != null) {
             Set<EmailCadastro> emls = dto.getEmails().stream().map(eml -> {
                 EmailCadastro email = new EmailCadastro();
                 email.setEndereco(eml);
@@ -67,11 +70,11 @@ public class ClienteService {
             cliente.setEmails(emls);
         }
 
-        //Dados do Contato
+        // Contatos do cliente
         if (dto.getContatos() != null) {
             Set<Contato> contatos = dto.getContatos().stream().map(ctt -> {
                 Contato contato = new Contato();
-                contato.setNomeCompleto((ctt.getNomeCompleto()));
+                contato.setNomeCompleto(ctt.getNomeCompleto());
                 contato.setCliente(cliente);
 
                 if (ctt.getTelefones() != null) {

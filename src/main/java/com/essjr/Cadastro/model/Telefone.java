@@ -3,6 +3,8 @@ package com.essjr.Cadastro.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 
+@Entity
+@Table(name = "telefone_tb")
 public class Telefone {
 
     @Id
@@ -19,6 +21,10 @@ public class Telefone {
     @ManyToOne
     @JoinColumn(name = "pessoa_id")
     private Pessoa pessoa;
+
+    @ManyToOne
+    @JoinColumn(name = "contato_id")
+    private Contato contato;
 
 
     public Long getId() {
@@ -43,5 +49,13 @@ public class Telefone {
 
     public void setPessoa(Pessoa pessoa) {
         this.pessoa = pessoa;
+    }
+
+    public Contato getContato() {
+        return contato;
+    }
+
+    public void setContato(Contato contato) {
+        this.contato = contato;
     }
 }

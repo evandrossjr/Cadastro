@@ -8,8 +8,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@MappedSuperclass
-public class Pessoa {
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "pessoa_tb")
+public abstract class Pessoa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,6 +31,8 @@ public class Pessoa {
 
     @OneToMany(mappedBy = "pessoa", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<EmailCadastro> emails = new HashSet<>();
+
+
 
 
 
