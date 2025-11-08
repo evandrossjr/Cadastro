@@ -1,10 +1,10 @@
-package com.essjr.Cadastro.model;
+package com.essjr.Cadastro.model.Contato;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "email_tb")
-public class EmailCadastro {
+@Table(name = "emailContato_tb")
+public class EmailContato {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,14 +14,11 @@ public class EmailCadastro {
     private String endereco;
 
     @ManyToOne
-    @JoinColumn(name = "pessoa_id")
-    private Pessoa pessoa;
-
-    @ManyToOne
     @JoinColumn(name = "contato_id")
     private Contato contato;
 
 
+    // GETTERS E SETTERS
 
     public Long getId() {
         return id;
@@ -37,14 +34,6 @@ public class EmailCadastro {
 
     public void setEndereco(String endereco) {
         this.endereco = endereco;
-    }
-
-    public Pessoa getPessoa() {
-        return pessoa;
-    }
-
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
     }
 
     public Contato getContato() {

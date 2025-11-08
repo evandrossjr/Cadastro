@@ -1,8 +1,8 @@
-package com.essjr.Cadastro.dtos;
+package com.essjr.Cadastro.model.Contato.dtos;
 
-import com.essjr.Cadastro.model.Contato;
-import com.essjr.Cadastro.model.EmailCadastro;
-import com.essjr.Cadastro.model.Telefone;
+import com.essjr.Cadastro.model.Contato.Contato;
+import com.essjr.Cadastro.model.Contato.EmailContato;
+import com.essjr.Cadastro.model.Contato.TelefoneContato;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -36,8 +36,8 @@ public class ContatoDTO {
         ContatoDTO dto = new ContatoDTO();
         dto.setId(contato.getId());
         dto.setNomeCompleto(contato.getNomeCompleto());
-        dto.setTelefones(contato.getTelefones().stream().map(Telefone::getNumero).toList());
-        dto.setEmails(contato.getEmails().stream().map(EmailCadastro::getEndereco).toList());
+        dto.setTelefones(contato.getTelefones().stream().map(TelefoneContato::getNumero).toList());
+        dto.setEmails(contato.getEmails().stream().map(EmailContato::getEndereco).toList());
 
         if  (contato.getCliente() != null) {
             dto.setClienteId(contato.getCliente().getId());

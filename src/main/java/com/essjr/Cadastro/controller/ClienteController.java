@@ -1,6 +1,6 @@
 package com.essjr.Cadastro.controller;
 
-import com.essjr.Cadastro.dtos.ClienteDTO;
+import com.essjr.Cadastro.model.Cliente.dtos.ClienteDTO;
 import com.essjr.Cadastro.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,11 +1,11 @@
-package com.essjr.Cadastro.model;
+package com.essjr.Cadastro.model.Cliente;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 
 @Entity
-@Table(name = "telefone_tb")
-public class Telefone {
+@Table(name = "telefoneCliente_tb")
+public class TelefoneCliente {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,12 +19,11 @@ public class Telefone {
     private String numero;
 
     @ManyToOne
-    @JoinColumn(name = "pessoa_id")
-    private Pessoa pessoa;
+    @JoinColumn(name = "cliente_id")
+    private Cliente cliente;
 
-    @ManyToOne
-    @JoinColumn(name = "contato_id")
-    private Contato contato;
+
+    // GETTERS E SETTERS
 
 
     public Long getId() {
@@ -43,19 +42,11 @@ public class Telefone {
         this.numero = numero;
     }
 
-    public Pessoa getPessoa() {
-        return pessoa;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setPessoa(Pessoa pessoa) {
-        this.pessoa = pessoa;
-    }
-
-    public Contato getContato() {
-        return contato;
-    }
-
-    public void setContato(Contato contato) {
-        this.contato = contato;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 }
