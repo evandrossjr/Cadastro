@@ -1,8 +1,13 @@
 package com.essjr.Cadastro.Cliente;
 
+import com.essjr.Cadastro.Contato.Contato;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 
 @Entity
@@ -38,7 +43,17 @@ public class Cliente {
 
     private String emailAdicional;
 
+    @CreationTimestamp // <-- Use isso
+    @Column(name = "data_registro", nullable = false, updatable = false)
     private LocalDate dataRegistro = LocalDate.now();
+
+    @ManyToMany // (Ou @OneToMany, dependendo da sua regra de negócio)
+    @JoinTable(
+            name = "cliente_contato",
+            joinColumns = @JoinColumn(name = "cliente_id"),
+            inverseJoinColumns = @JoinColumn(name = "contato_id")
+    )
+    private Set<Contato> contatos = new HashSet<>();
 
     //CONSTRUTOR
     public Cliente() {
@@ -118,5 +133,13 @@ public class Cliente {
 
     public void setDataRegistro(LocalDate dataRegistro) {
         this.dataRegistro = dataRegistro;
+    }
+
+    public Set<Contato> getContatos() {
+        return contatos;
+    }
+
+    public void setContatos(Set<Contato> contatos) {
+        this.contatos = contatos;
     }
 }

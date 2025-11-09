@@ -66,5 +66,15 @@ public class ContatoService {
 
     }
 
+    public List<ContatoDTO> findByNomeCompleto(String nomeCompleto) {
+        return contatoRepository.findByNomeCompleto(nomeCompleto);
+    }
+
+    public List<ContatoDTO> findAllByIds(List<Long> ids) {
+        // Busca as entidades e converte para DTO
+        return contatoRepository.findAllById(ids).stream()
+                .map(ContatoMapper::toDTO) // (Supondo que você tenha um ContatoMapper)
+                .toList();
+    }
 
 }

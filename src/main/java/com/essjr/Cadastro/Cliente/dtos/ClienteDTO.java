@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public record ClienteDTO (Long id,
                           @NotBlank String nomeCompleto,
@@ -12,6 +13,7 @@ public record ClienteDTO (Long id,
                           @Email String emailAdicional,
                           @NotNull String telefone,
                           String telefoneAdicional,
-                          LocalDate dataRegistro){}
+                          LocalDate dataRegistro,
+                          List<Long> contatosIds){}
 
 

@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
 @Controller
 @RequestMapping("/contato")
 public class ContatoWebController {
@@ -29,10 +32,22 @@ public class ContatoWebController {
     }
 
     @PostMapping("/cadastro")
-    public String salvarViaFormulario(@ModelAttribute ContatoDTO dto, RedirectAttributes redirectAttributes) {
-        contatoService.insert(dto);
-        redirectAttributes.addFlashAttribute("mensagem", "Contato \"" + dto.nomeCompleto() + "\" cadastrado com sucesso!");
-        return "redirect:/contato/cadastro";
+    public String salvarViaFormulario(@ModelAttribute ContatoDTO dto, RedirectAttributes redirectAttributes, Model model) {
+        try {
+            contatoService.insert(dto);
+            redirectAttributes.addFlashAttribute("mensagem", "Contato \"" + dto.nomeCompleto() + "\" cadastrado com sucesso!");
+            return "redirect:/contato/cadastro";
+        } catch (Exception e) {
+            System.err.println("Erro ao cadastrar contato: " + e.getMessage());
+            e.printStackTrace();
+            model.addAttribute("erro", "Erro ao cadastrar contato: " + e.getMessage());
+            model.addAttribute("contato", dto); // importante: mesmo nome usado no formulário
+            model.addAttribute("titulo", "Cadastro de Contato");
+            model.addAttribute("conteudo", "cadastroContato"); // caminho do template parcial
+
+            return "layout"; // volta pelo layout
+        }
     }
+
 
 }

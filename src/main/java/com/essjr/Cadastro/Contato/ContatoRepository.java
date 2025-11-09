@@ -1,5 +1,6 @@
 package com.essjr.Cadastro.Contato;
 
+import com.essjr.Cadastro.Contato.dtos.ContatoDTO;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -12,6 +13,6 @@ public interface ContatoRepository extends JpaRepository<Contato, Long> {
     @Query("SELECT DISTINCT c.nomeCompleto FROM Contato c")
     List<String> findEspecialidades();
 
-    List<Contato> findByNomeCompleto(String NomeCompleto);
+    List<ContatoDTO> findByNomeCompleto(String NomeCompleto);
 
 }

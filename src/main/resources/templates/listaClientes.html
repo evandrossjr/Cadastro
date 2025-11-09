@@ -1,0 +1,102 @@
+<div class="content" xmlns:th="http://www.w3.org/1999/xhtml">
+
+    <div class="mb-4">
+        <h1 th:text="'Bem-vindo(a)!'">Bem-vindo!</h1>
+        <p>Lista de Clientes</p>
+    </div>
+
+    <div class="card shadow-sm mb-3">
+        <div class="card-body">
+            <h5 class="card-title">Clientes Cadastrados</h5>
+
+            <div th:if="${#lists.isEmpty(clientes)}" class="alert alert-info" role="alert">
+                Nenhum cliente cadastrado.
+            </div>
+
+            <div th:unless="${#lists.isEmpty(clientes)}">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Nome Completo</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Ações</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <th:block th:each="cliente : ${clientes}">
+                        <tr th:id="${'cliente-row-' + cliente.id}">
+                            <td th:text="${cliente.nomeCompleto}">Nome do Cliente</td>
+                            <td th:text="${cliente.email}">email@example.com</td>
+                            <td th:text="${cliente.telefone}"> (XX) XXXX-XXXX </td>
+                            <td>
+                                <button class="btn btn-sm btn-info toggle-contatos"
+                                        th:data-target="${'#contatos-cliente-' + cliente.id}"
+                                        th:data-cliente-id="${cliente.id}">
+                                    <i class="fas fa-address-book"></i> <span class="button-text">Ver Contatos</span>
+                                </button>
+
+                                <a th:href="@{/cliente/editar/{id}(id=${cliente.id})}" class="btn btn-sm btn-primary me-2">
+                                    <i class="fas fa-edit"></i> Editar
+                                </a>
+                                <a th:href="@{/cliente/excluir/{id}(id=${cliente.id})}" class="btn btn-sm btn-danger"
+                                   onclick="return confirm('Tem certeza que deseja excluir este cliente?');">
+                                    <i class="fas fa-trash-alt"></i> Excluir
+                                </a>
+                            </td>
+                        </tr>
+                        <tr class="collapse" th:id="${'contatos-cliente-' + cliente.id}">
+                            <td colspan="4"> <div class="p-3 bg-light border rounded">
+                                <h5>Contatos de <span th:text="${cliente.nomeCompleto}"></span>:</h5>
+                                <ul th:if="${#lists.isEmpty(cliente.contatos)}" class="list-unstyled">
+                                    <li>Nenhum contato cadastrado para este cliente.</li>
+                                </ul>
+                                <ul th:unless="${#lists.isEmpty(cliente.contatos)}" class="list-unstyled">
+                                    <li th:each="contato : ${cliente.contatos}">
+                                        <strong><span th:text="${contato.nomeCompleto}"></span>:</strong>
+                                        <span th:text="${contato.telefone}"></span>
+                                    </li>
+                                </ul>
+                                <a th:href="@{/cliente/{clienteId}/contatos/novo(clienteId=${cliente.id})}" class="btn btn-sm btn-success mt-2">
+                                    <i class="fas fa-plus"></i> Adicionar Contato
+                                </a>
+                            </div>
+                            </td>
+                        </tr>
+                    </th:block>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.toggle-contatos').forEach(button => {
+                button.addEventListener('click', function() {
+                    const targetId = this.dataset.target; // Ex: #contatos-cliente-1
+                    const targetRow = document.querySelector(targetId);
+                    const buttonTextSpan = this.querySelector('.button-text');
+                    const icon = this.querySelector('i');
+
+                    // Toggle a visibilidade da linha de detalhes
+                    if (targetRow.classList.contains('show')) {
+                        targetRow.classList.remove('show');
+                        targetRow.classList.add('collapse');
+                        buttonTextSpan.textContent = 'Ver Contatos';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-address-book');
+                    } else {
+                        targetRow.classList.remove('collapse');
+                        targetRow.classList.add('show');
+                        buttonTextSpan.textContent = 'Ocultar Contatos';
+                        icon.classList.remove('fa-address-book');
+                        icon.classList.add('fa-eye-slash');
+                    }
+                });
+            });
+        });
+    </script>
+
+</div>
