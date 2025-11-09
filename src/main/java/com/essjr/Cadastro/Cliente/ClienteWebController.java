@@ -6,6 +6,7 @@ import com.essjr.Cadastro.Cliente.dtos.ClienteDTO;
 import com.essjr.Cadastro.Contato.Contato;
 import com.essjr.Cadastro.Contato.ContatoService;
 import com.essjr.Cadastro.Contato.dtos.ContatoDTO;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -97,6 +98,46 @@ class ClienteWebController {
         model.addAttribute("titulo", "Contatos de " + cliente.nomeCompleto());
         model.addAttribute("conteudo", "listaContatosDoCliente");
         return "layout";
+    }
+
+
+    @GetMapping("/editar/{id}")
+    public String editarCliente(@PathVariable Long id, Model model) {
+        ClienteDTO cliente = clienteService.findById(id);
+
+        model.addAttribute("conteudo", "editarCliente");
+        model.addAttribute("cliente", cliente);
+        model.addAttribute("todosOsContatos", contatoService.findAll());
+
+        return "layout";
+    }
+
+    @PostMapping("/editar/{id}")
+    public String atualizarCliente(
+            @PathVariable Long id,
+            @ModelAttribute ClienteDTO dto,
+            RedirectAttributes redirectAttributes,
+            Model model) {
+
+        try {
+            clienteService.update(id, dto);
+            redirectAttributes.addFlashAttribute("mensagem", "Cliente atualizado com sucesso!");
+            return "redirect:/cliente/editar/" + id;
+
+        } catch (Exception e) {
+            model.addAttribute("erro", "Erro ao atualizar cliente: " + e.getMessage());
+            model.addAttribute("cliente", dto);
+            model.addAttribute("todosOsContatos", contatoService.findAll());
+            return "editarCliente";
+        }
+    }
+
+
+    @PostMapping("/excluir/{id}")
+    public String excluirCliente(@PathVariable Long id, RedirectAttributes redirectAttributes) {
+        clienteService.delete(id);
+        redirectAttributes.addFlashAttribute("mensagem", "Cliente excluído com sucesso!");
+        return "redirect:/cliente/lista";
     }
 
 }

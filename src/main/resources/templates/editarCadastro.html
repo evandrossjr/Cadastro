@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<div class="content" xmlns:th="http://www.w3.org/1999/xhtml">
-    <h2 class="mb-4 text-center">Cadastro de Contato</h2>
+<div class="content" th:fragment="content" xmlns:th="http://www.w3.org/1999/xhtml">
+    <h2 class="mb-4 text-center">Contatos</h2>
 
     <div th:if="${mensagem}" class="alert alert-success d-flex align-items-center" role="alert">
         <svg class="bi flex-shrink-0 me-2" width="24" height="24" fill="green" viewBox="0 0 16 16" role="img" aria-label="Success:">
@@ -18,13 +17,14 @@
 
     <div class="card shadow-sm form-container">
         <div class="card-body">
-            <form th:action="@{/contato/cadastro}" th:object="${contato}" method="post">
+
+            <form th:action="@{/contato/editar}" th:object="${contato}" method="post">
                 <div class="row">
+                    <input type="hidden" th:field="*{id}" />
                     <div class="col-md-6 mb-3">
                         <label for="nome" class="form-label">Nome Completo</label>
-                        <input type="text" class="form-control" id="nome" th:field="*{nomeCompleto}" required>
+                        <input type="text" class="form-control" th:field="*{/contato/cadastro}" id="nome" required>
                     </div>
-
                     <div class="col-md-6 mb-3">
                         <label for="telefone" class="form-label">Telefone</label>
                         <input type="tel" class="form-control" id="telefone" th:field="*{telefone}" required>
@@ -45,6 +45,7 @@
                         <input type="email" class="form-control" id="emailAdicional" th:field="*{emailAdicional}">
                     </div>
                 </div>
+
                 <button type="submit" class="btn btn-primary w-100">Salvar</button>
             </form>
         </div>

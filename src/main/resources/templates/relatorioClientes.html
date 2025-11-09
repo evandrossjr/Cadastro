@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<div th:fragment="relatorioClientes">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h2 class="mb-0">
+        <img th:src="@{/images/logo_c_a.png}" alt="Logo C.A" width="40" height="40" class="me-2">
+        Relatório de Clientes
+      </h2>
+    </div>
+    <div>
+      <a th:href="@{/relatorio/pdf}" class="btn btn-danger">
+        <i class="fas fa-file-pdf"></i> Exportar PDF
+      </a>
+    </div>
+  </div>
+
+  <div class="mb-3 p-2 bg-light rounded">
+    <strong>Data:</strong> <span th:text="${#temporals.format(dataAtual, 'dd/MM/yyyy')}"></span> |
+    <strong>Hora:</strong> <span th:text="${#temporals.format(horaAtual, 'HH:mm:ss')}"></span> |
+    <strong>Usuário:</strong> <span sec:authentication="name"></span> (FUTURO)
+  </div>
+
+  <table class="table table-bordered table-hover">
+    <thead class="table-dark">
+    <tr>
+      <th>Cliente</th>
+      <th>Telefones (Cliente)</th>
+      <th>Emails (Cliente)</th>
+      <th>Data Cadastro</th>
+    </tr>
+    </thead>
+
+    <th:block th:each="cliente : ${clientes}">
+
+      <tr class="table-primary"> <td th:text="${cliente.nomeCompleto}">Cliente 1</td>
+        <td th:text="${cliente.telefone} + ' / ' + ${cliente.telefoneAdicional}">tel 1 / tel 2</td>
+        <td th:text="${cliente.email} + ' / ' + ${cliente.emailAdicional}">email 1 / email 2</td>
+        <td th:text="${#temporals.format(cliente.dataRegistro, 'dd/MM/yyyy')}">dias/mês</td>
+      </tr>
+
+      <tr th:if="${!#lists.isEmpty(cliente.contatos)}" th:each="contato : ${cliente.contatos}" class="table-light">
+        <td style="padding-left: 40px;">
+          <i class="fas fa-user-friends me-2"></i>
+          <span th:text="${contato.nomeCompleto}">Contato 1</span>
+        </td>
+        <td th:text="${contato.telefone} + ' / ' + ${contato.telefoneAdicional}">tel 1 / tel 2</td>
+        <td th:text="${contato.email} + ' / ' + ${contato.emailAdicional}">email 1 / email 2</td>
+        <td></td>
+      </tr>
+
+      <tr th:if="${#lists.isEmpty(cliente.contatos)}">
+        <td colspan="4" style="padding-left: 40px; font-style: italic;">
+          Nenhum contato cadastrado para este cliente.
+        </td>
+      </tr>
+
+    </th:block>
+  </table>
+</div>
