@@ -1,0 +1,73 @@
+package com.essjr.Cadastro.services;
+
+import com.essjr.Cadastro.model.Contato.Contato;
+import com.essjr.Cadastro.model.Contato.dtos.ContatoDTO;
+import com.essjr.Cadastro.repositories.ContatoRepository;
+import com.essjr.Cadastro.model.Contato.mapper.ContatoMapper;
+import jakarta.persistence.EntityNotFoundException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
+
+import java.util.EnumSet;
+import java.util.List;
+
+@Service
+public class ContatoService {
+
+    @Autowired
+    private ContatoRepository contatoRepository;
+
+
+    public List<ContatoDTO> findAll(){
+
+        return contatoRepository.findAll().stream().map(ContatoMapper::toDTO).toList();
+    }
+
+    public ContatoDTO findById(Long id){
+        Contato contato = contatoRepository.findById(id).
+                orElseThrow(()-> new ResourceAccessException("Contato não encontrado"));
+        return ContatoMapper.toDTO(contato);
+    }
+
+    public ContatoDTO insert(ContatoDTO dto){
+        if (contatoRepository.existsByEmail(dto.email())) {
+            throw new IllegalArgumentException("E-mail já cadastrado.");
+        }
+
+        Contato obj = ContatoMapper.toEntity(dto);
+
+        Contato contatoSalvo = contatoRepository.save(obj);
+        return ContatoMapper.toDTO(contatoSalvo);
+    }
+
+    public void delete(Long id){
+        contatoRepository.deleteById(id);
+    }
+
+    public ContatoDTO update(Long id, ContatoDTO dto){
+        try{
+            Contato entity = contatoRepository
+                    .findById(id).orElseThrow(() -> new EntityNotFoundException("Contato não encontrado com o: " + id));
+
+            Contato updates = ContatoMapper.toEntity(dto);
+            updateData(entity, updates);
+
+            Contato updated = contatoRepository.save(entity);
+            return ContatoMapper.toDTO(updated);
+        } catch (Exception e) {
+            throw new RuntimeException("Erro ao atualizar o Contyato: " + e.getMessage(), e);
+        }
+    }
+
+    private void updateData(Contato entity, Contato obj) {
+        entity.setNomeCompleto(obj.getNomeCompleto());
+        entity.setTelefone(obj.getTelefone());
+        entity.setTelefoneAdicional(obj.getTelefoneAdicional());
+        entity.setEmail(obj.getEmail());
+        entity.setEmailAdicional(obj.getEmailAdicional());
+
+    }
+
+
+}

@@ -22,21 +22,40 @@ public class Contato {
     @Column(nullable = false)
     private String nomeCompleto;
 
-    @ManyToOne
-    @JoinColumn(name = "cliente_id", nullable = false)
-    private Cliente cliente;
+    @Pattern(
+            regexp = "^(\\d{10,11})?$",
+            message = "Preencha um telefone válido (com DDD)"
+    )
+    @Column(nullable = true)
+    private String telefone;
 
-    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TelefoneContato> telefones = new HashSet<>();
+    @Pattern(
+            regexp = "^(\\d{10,11})?$",
+            message = "Preencha um telefone válido (com DDD)"
+    )
+    @Column(nullable = true)
+    private String telefoneAdicional;
 
-    @OneToMany(mappedBy = "contato", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<EmailContato> emails = new HashSet<>();
+    private String email;
+
+    private String emailAdicional;
 
     //CONSTRUTOR
     public Contato() {
     }
 
+    public Contato(Long id, String nomeCompleto, String telefone, String telefoneAdicional, String email, String emailAdicional) {
+        this.id = id;
+        this.nomeCompleto = nomeCompleto;
+        this.telefone = telefone;
+        this.telefoneAdicional = telefoneAdicional;
+        this.email = email;
+        this.emailAdicional = emailAdicional;
+    }
+
     // GETTERS E SETTERS
+
+
     public Long getId() {
         return id;
     }
@@ -53,27 +72,42 @@ public class Contato {
         this.nomeCompleto = nomeCompleto;
     }
 
-    public Cliente getCliente() {
-        return cliente;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
+    public void setTelefone(String telefone) {
+        if (telefone != null) {
+            this.telefone = telefone.replaceAll("\\D", "");
+        } else {
+            this.telefone = null;
+        }
     }
 
-    public Set<TelefoneContato> getTelefones() {
-        return telefones;
+    public String getTelefoneAdicional() {
+        return telefoneAdicional;
     }
 
-    public void setTelefones(Set<TelefoneContato> telefones) {
-        this.telefones = telefones;
+    public void setTelefoneAdicional(String telefoneAdicional) {
+        if (telefoneAdicional != null) {
+            this.telefoneAdicional = telefoneAdicional.replaceAll("\\D", "");
+        } else {
+            this.telefoneAdicional = null;
+        }    }
+
+    public String getEmail() {
+        return email;
     }
 
-    public Set<EmailContato> getEmails() {
-        return emails;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setEmails(Set<EmailContato> emails) {
-        this.emails = emails;
+    public String getEmailAdicional() {
+        return emailAdicional;
+    }
+
+    public void setEmailAdicional(String emailAdicional) {
+        this.emailAdicional = emailAdicional;
     }
 }

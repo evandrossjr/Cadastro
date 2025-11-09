@@ -12,8 +12,8 @@ public class TelefoneContato {
     private Long id;
 
     @Pattern(
-            regexp = "^\\(?\\d{2}\\)?\\s?(9?\\d{4})-?\\d{4}$",
-            message = "Preencha o telefone no formato (DD) XXXXX-XXXX"
+            regexp = "^(\\d{10,11})?$",
+            message = "Preencha um telefone válido (com DDD)"
     )
     @Column(nullable = false)
     private String numero;
@@ -38,7 +38,12 @@ public class TelefoneContato {
     }
 
     public void setNumero(String numero) {
-        this.numero = numero;
+        if (numero != null) {
+            // remove tudo que não é número antes de persistir
+            this.numero = numero.replaceAll("\\D", "");
+        } else {
+            this.numero = null;
+        }
     }
 
     public Contato getContato() {

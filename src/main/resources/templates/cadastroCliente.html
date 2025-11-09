@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${cliente.id != null} ? 'Editar Cliente' : 'Novo Cliente'"></title>
+    <style>
+        body { font-family: sans-serif; margin: 30px; }
+        h1 { margin-bottom: 20px; }
+        label { display: block; margin-top: 10px; }
+        input { padding: 6px; width: 300px; }
+        button { margin-top: 10px; padding: 5px 10px; cursor: pointer; }
+        .subform { margin-top: 15px; padding: 10px; border: 1px solid #ddd; border-radius: 8px; }
+        .inline { display: flex; gap: 10px; align-items: center; margin-bottom: 5px; }
+        .inline input { width: 250px; }
+    </style>
+</head>
+<body>
+
+<h1 th:text="${cliente.id != null} ? 'Editar Cliente' : 'Novo Cliente'"></h1>
+
+<form th:action="@{${cliente.id != null} ? '/clientes/' + ${cliente.id} : '/clientes/novo'}"
+      th:object="${cliente}" method="post">
+
+    <!-- Nome -->
+    <label>Nome Completo:</label>
+    <input type="text" th:field="*{nomeCompleto}" required>
+
+    <!-- Telefones -->
+    <div class="subform">
+        <h3>Telefones</h3>
+        <div id="telefones">
+            <div class="inline" th:each="t, iterStat : *{telefones}">
+                <input type="text" th:field="*{telefones[__${iterStat.index}__]}" placeholder="(99) 99999-9999">
+                <input type="hidden" th:field="*{telefonesExcluidos[__${iterStat.index}__]}" value="false">
+                <button type="button"
+                        th:onclick="'confirmarExclusao(this, \'telefonesExcluidos[' + ' + iterStat.index + ' + ']\')'">X</button>
+            </div>
+        </div>
+        <button type="button" onclick="addTelefone()">Adicionar Telefone</button>
+    </div>
+
+    <!-- Emails -->
+    <div class="subform">
+        <h3>Emails</h3>
+        <div id="emails">
+            <div class="inline" th:each="e, iterStat : *{emails}">
+                <input type="email" th:field="*{emails[__${iterStat.index}__]}" placeholder="email@exemplo.com">
+                <input type="hidden" th:field="*{emailsExcluidos[__${iterStat.index}__]}" value="false">
+                <button type="button"
+                        th:onclick="'confirmarExclusao(this, \'emailsExcluidos[' + ' + iterStat.index + ' + ']\')'">X</button>
+            </div>
+        </div>
+        <button type="button" onclick="addEmail()">Adicionar Email</button>
+    </div>
+
+    <!-- Contatos -->
+    <div class="subform">
+        <h3>Contatos</h3>
+        <div id="contatos">
+            <div class="contato" th:each="c, cIndex : *{contatos}">
+                <label>Nome do Contato:</label>
+                <input type="text" th:field="*{contatos[__${cIndex.index}__].nomeCompleto}" placeholder="Nome Completo">
+
+                <!-- Telefones do contato -->
+                <label>Telefones:</label>
+                <div th:id="'contato-telefones-' + ${cIndex.index}">
+                    <div class="inline" th:each="t, tIndex : ${c.telefones}">
+                        <input type="text"
+                               th:field="*{contatos[__${cIndex.index}__].telefones[__${tIndex.index}__]}"
+                               placeholder="(99) 99999-9999">
+                        <input type="hidden"
+                               th:field="*{contatos[__${cIndex.index}__].telefonesExcluidos[__${tIndex.index}__]}"
+                               value="false">
+                        <button type="button"
+                                th:onclick="'confirmarExclusao(this, \'contatos[' + cIndex.index + '].telefonesExcluidos[' + tIndex.index + ']\')'">X</button>
+                    </div>
+                </div>
+                <button type="button" th:onclick="'addTelefoneContato(' + ${cIndex.index} + ')'">+ Telefone</button>
+
+                <!-- Emails do contato -->
+                <label>Emails:</label>
+                <div th:id="'contato-emails-' + ${cIndex.index}">
+                    <div class="inline" th:each="e, eIndex : ${c.emails}">
+                        <input type="email"
+                               th:field="*{contatos[__${cIndex.index}__].emails[__${eIndex.index}__]}"
+                               placeholder="email@exemplo.com">
+                        <input type="hidden"
+                               th:field="*{contatos[__${cIndex.index}__].emailsExcluidos[__${eIndex.index}__]}"
+                               value="false">
+                        <button type="button"
+                                th:onclick="'confirmarExclusao(this, \'contatos[' + cIndex.index + '].emailsExcluidos[' + eIndex.index + ']\')'">X</button>
+                    </div>
+                </div>
+                <button type="button" th:onclick="'addEmailContato(' + ${cIndex.index} + ')'">+ Email</button>
+                <hr>
+            </div>
+        </div>
+        <button type="button" onclick="addContato()">Adicionar Contato</button>
+    </div>
+
+    <button type="submit">Salvar Cliente</button>
+    <a href="/">Cancelar</a>
+</form>
+
+<script th:inline="javascript">
+    let telefoneIndex = /*[[${cliente.telefones != null ? cliente.telefones.size() : 0}]]*/ 0;
+    let emailIndex = /*[[${cliente.emails != null ? cliente.emails.size() : 0}]]*/ 0;
+    let contatoIndex = /*[[${cliente.contatos != null ? cliente.contatos.size() : 0}]]*/ 0;
+
+    // Máscara de telefone
+    function aplicarMascaraTelefone(input) {
+        input.addEventListener('input', (e) => {
+            let v = e.target.value.replace(/\D/g,'');
+            if (v.length > 2) v = '(' + v.substring(0,2) + ') ' + v.substring(2);
+            if (v.length > 10) v = v.substring(0,10) + '-' + v.substring(10,14);
+            e.target.value = v;
+        });
+        // Formatar valores existentes
+        if (input.value) {
+            let v = input.value.replace(/\D/g,'');
+            if (v.length >= 10) v = '(' + v.substring(0,2) + ') ' + v.substring(2,7) + '-' + v.substring(7,11);
+            input.value = v;
+        }
+    }
+
+    document.querySelectorAll("input[name*='telefones']").forEach(aplicarMascaraTelefone);
+    document.querySelectorAll("input[name*='contatos'][name*='telefones']").forEach(aplicarMascaraTelefone);
+
+    // Funções adicionar campos
+    function addTelefone() {
+        const div = document.createElement('div');
+        div.classList.add('inline');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.name = `telefones[${telefoneIndex++}]`;
+        input.placeholder = '(99) 99999-9999';
+        aplicarMascaraTelefone(input);
+        div.appendChild(input);
+        document.getElementById('telefones').appendChild(div);
+    }
+
+    function addEmail() {
+        const div = document.createElement('div');
+        div.classList.add('inline');
+        const input = document.createElement('input');
+        input.type = 'email';
+        input.name = `emails[${emailIndex++}]`;
+        input.placeholder = 'email@exemplo.com';
+        div.appendChild(input);
+        document.getElementById('emails').appendChild(div);
+    }
+
+    function addContato() {
+        const div = document.createElement('div');
+        div.classList.add('contato');
+        div.innerHTML = `
+            <label>Nome do Contato:</label>
+            <input type="text" name="contatos[${contatoIndex}].nomeCompleto" placeholder="Nome Completo">
+
+            <label>Telefones:</label>
+            <div id="contato-telefones-${contatoIndex}">
+                <input type="text" name="contatos[${contatoIndex}].telefones[0]" placeholder="(99) 99999-9999">
+            </div>
+
+            <label>Emails:</label>
+            <div id="contato-emails-${contatoIndex}">
+                <input type="email" name="contatos[${contatoIndex}].emails[0]" placeholder="email@exemplo.com">
+            </div>
+
+            <button type="button" onclick="addTelefoneContato(${contatoIndex})">+ Telefone</button>
+            <button type="button" onclick="addEmailContato(${contatoIndex})">+ Email</button>
+            <hr>
+        `;
+        document.getElementById('contatos').appendChild(div);
+        contatoIndex++;
+    }
+
+    function addTelefoneContato(index) {
+        const container = document.getElementById(`contato-telefones-${index}`);
+        const input = document.createElement('input');
+        input.type = 'text';
+        const total = container.querySelectorAll('input').length;
+        input.name = `contatos[${index}].telefones[${total}]`;
+        input.placeholder = '(99) 99999-9999';
+        aplicarMascaraTelefone(input);
+        container.appendChild(input);
+    }
+
+    function addEmailContato(index) {
+        const container = document.getElementById(`contato-emails-${index}`);
+        const input = document.createElement('input');
+        input.type = 'email';
+        const total = container.querySelectorAll('input').length;
+        input.name = `contatos[${index}].emails[${total}]`;
+        input.placeholder = 'email@exemplo.com';
+        container.appendChild(input);
+    }
+
+    // Exclusão com confirmação
+    function confirmarExclusao(botao, hiddenName) {
+        if(confirm("Deseja realmente excluir este item?")) {
+            botao.parentNode.querySelector(`input[name='${hiddenName}']`).value = "true";
+            botao.parentNode.style.display = 'none';
+        }
+    }
+
+    // Antes de enviar: remove caracteres não numéricos
+    document.querySelector("form").addEventListener("submit", function() {
+        document.querySelectorAll("input[name*='telefones']").forEach(i => i.value = i.value.replace(/\D/g,''));
+    });
+</script>
+
+</body>
+</html>

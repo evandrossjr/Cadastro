@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -27,20 +29,24 @@ public class Cliente {
     private LocalDate dataRegistro = LocalDate.now();
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Contato> contatos = new HashSet<>();
+    private List<TelefoneCliente> telefones = new ArrayList<>();
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<TelefoneCliente> telefones = new HashSet<>();
+    private List<EmailCliente> emails = new ArrayList<>();
 
-    @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<EmailCliente> emails = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "cliente_contato",
+            joinColumns = @JoinColumn(name = "cliente_id"),
+            inverseJoinColumns = @JoinColumn(name = "contato_id")
+    )
+    private List<Contato> contatos  = new ArrayList<>();
 
     //CONSTRUTOR
     public Cliente() {
     }
 
     //GETTERS E SETTERS
-
     public Long getId() {
         return id;
     }
@@ -65,27 +71,27 @@ public class Cliente {
         this.dataRegistro = dataRegistro;
     }
 
-    public Set<Contato> getContatos() {
-        return contatos;
-    }
-
-    public void setContatos(Set<Contato> contatos) {
-        this.contatos = contatos;
-    }
-
-    public Set<TelefoneCliente> getTelefones() {
+    public List<TelefoneCliente> getTelefones() {
         return telefones;
     }
 
-    public void setTelefones(Set<TelefoneCliente> telefones) {
+    public void setTelefones(List<TelefoneCliente> telefones) {
         this.telefones = telefones;
     }
 
-    public Set<EmailCliente> getEmails() {
+    public List<EmailCliente> getEmails() {
         return emails;
     }
 
-    public void setEmails(Set<EmailCliente> emails) {
+    public void setEmails(List<EmailCliente> emails) {
         this.emails = emails;
+    }
+
+    public List<Contato> getContatos() {
+        return contatos;
+    }
+
+    public void setContatos(List<Contato> contatos) {
+        this.contatos = contatos;
     }
 }
