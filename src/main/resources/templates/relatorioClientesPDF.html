@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Relatório de Clientes</title>
+    <style type="text/css">
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10px; /* Letra menor */
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        th, td {
+            border: 1px solid #999;
+            padding: 5px; /* Menor padding */
+            text-align: left;
+        }
+        th {
+            background-color: #f0f0f0;
+            text-align: center;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .cliente-row {
+            background-color: #e6f0ff; /* Azul claro */
+            font-weight: bold;
+        }
+        .contato-row td {
+            background-color: #f9f9f9; /* Cinza bem claro */
+            padding-left: 25px; /* Indentação do contato */
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+
+<div class="header">
+    <h1>Relatório de Clientes</h1>
+    <p>
+        Data: <span th:text="${#temporals.format(dataAtual, 'dd/MM/yyyy')}"></span> |
+        Hora: <span th:text="${#temporals.format(horaAtual, 'HH:mm:ss')}"></span>
+    </p>
+</div>
+
+<table th:each="cliente : ${clientes}">
+    <thead>
+    <tr>
+        <th>Cliente</th>
+        <th>Telefones (Cliente)</th>
+        <th>Emails (Cliente)</th>
+        <th>Data Cadastro</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class="cliente-row">
+        <td th:text="${cliente.nomeCompleto}">Cliente 1</td>
+        <td th:text="${cliente.telefone} + ' / ' + ${cliente.telefoneAdicional}"></td>
+        <td th:text="${cliente.email} + ' / ' + ${cliente.emailAdicional}"></td>
+        <td th:text="${#temporals.format(cliente.dataRegistro, 'dd/MM/yyyy')}"></td>
+    </tr>
+
+    <tr th:if="${!#lists.isEmpty(cliente.contatos)}">
+        <td colspan="4" style="padding: 0; border: none;">
+            <table style="width: 100%; margin: 0; border: none;">
+                <tr th:each="contato : ${cliente.contatos}" class="contato-row">
+                    <td style="width: 25%;" th:text="${contato.nomeCompleto}">- Contato 1</td>
+                    <td style="width: 25%;" th:text="${contato.telefone} + ' / ' + ${contato.telefoneAdicional}"></td>
+                    <td style="width: 25%;" th:text="${contato.email} + ' / ' + ${contato.emailAdicional}"></td>
+                    <td style="width: 25%;"></td> </tr>
+            </table>
+        </td>
+    </tr>
+
+    <tr th:if="${#lists.isEmpty(cliente.contatos)}">
+        <td colspan="4" style="padding-left: 25px; font-style: italic;">
+            Nenhum contato cadastrado para este cliente.
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

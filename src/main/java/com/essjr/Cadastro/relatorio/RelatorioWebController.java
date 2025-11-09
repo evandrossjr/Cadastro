@@ -13,6 +13,8 @@ import org.thymeleaf.context.Context;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 @Controller
@@ -44,39 +46,40 @@ public class RelatorioWebController {
     @GetMapping("/pdf")
     public void exportarRelatorioPdf(HttpServletResponse response) {
         try {
-            // 1. Buscar os dados (mesma lógica do relatório em tela)
-            List<Cliente> clientes = clienteRepository.findAllWithContatos();
+            // 1. Buscar os dados (vem com duplicatas por causa do Join)
+            List<Cliente> clientesComDuplicatas = clienteRepository.findAllWithContatos();
 
-            // 2. Preparar o Contexto do Thymeleaf (enviar dados para o template)
+            // 2. --- CORREÇÃO DE DUPLICATAS ---
+            //    Um LinkedHashSet remove duplicatas e mantém a ordem de inserção.
+            //    (Isso requer que sua entidade Cliente tenha .equals() e .hashCode())
+            List<Cliente> clientesUnicos = new ArrayList<>(new LinkedHashSet<>(clientesComDuplicatas));
+
+            // 3. Preparar o Contexto do Thymeleaf
             Context context = new Context();
-            context.setVariable("clientes", clientes);
-            // Adicione outras variáveis se o seu template PDF precisar
-            // (Note: data/hora serão as do momento da geração do PDF)
+            context.setVariable("clientes", clientesUnicos); // <-- Passa a lista limpa
             context.setVariable("dataAtual", java.time.LocalDate.now());
             context.setVariable("horaAtual", java.time.LocalTime.now());
 
-            // 3. Processar o template HTML como uma String
-            // Vamos reusar o mesmo template, mas você poderia criar um
-            // "relatorioClientes-pdf.html" se quisesse um layout diferente
-            String htmlContent = templateEngine.process("relatorioClientes", context);
+            // 4. --- MUDANÇA DE TEMPLATE ---
+            //    Processa o novo template de PDF, não o fragmento
+            String htmlContent = templateEngine.process("relatorioClientePDF", context);
 
-            // 4. Configurar a Resposta do HTTP para PDF
+            // 5. Configurar a Resposta do HTTP (continua igual)
             response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", "attachment; filename=\"relatorio_clientes.pdf\"");
 
-            // 5. Usar o Flying Saucer para gerar o PDF
+            // 6. Usar o Flying Saucer (continua igual)
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(htmlContent);
             renderer.layout();
 
-            // 6. Escrever o PDF na saída da resposta
+            // 7. Escrever o PDF (continua igual)
             OutputStream outputStream = response.getOutputStream();
             renderer.createPDF(outputStream);
             outputStream.close();
 
         } catch (Exception e) {
             e.printStackTrace();
-            // Lidar com o erro (ex: enviar uma resposta de erro)
         }
     }
 }

@@ -7,6 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -142,4 +143,17 @@ public class Cliente {
     public void setContatos(Set<Contato> contatos) {
         this.contatos = contatos;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Cliente cliente)) return false;
+        return Objects.equals(nomeCompleto, cliente.nomeCompleto) && Objects.equals(email, cliente.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(nomeCompleto, email);
+    }
 }
+
+
