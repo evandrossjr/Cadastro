@@ -1,12 +1,8 @@
-package com.essjr.Cadastro.model.Contato;
+package com.essjr.Cadastro.Contato;
 
 
-import com.essjr.Cadastro.model.Cliente.Cliente;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
-
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 public class Contato {

@@ -1,8 +1,6 @@
-package com.essjr.Cadastro.controller;
+package com.essjr.Cadastro.Contato;
 
-import com.essjr.Cadastro.model.Contato.Contato;
-import com.essjr.Cadastro.model.Contato.dtos.ContatoDTO;
-import com.essjr.Cadastro.services.ContatoService;
+import com.essjr.Cadastro.Contato.dtos.ContatoDTO;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -16,7 +14,7 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping(value = "/contatos")
+@RequestMapping(value = "/api/contatos")
 public class ContatoController {
 
     @Autowired

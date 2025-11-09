@@ -1,10 +1,8 @@
-package com.essjr.Cadastro.controller.web;
+package com.essjr.Cadastro.Contato;
 
 
-import com.essjr.Cadastro.model.Contato.dtos.ContatoDTO;
-import com.essjr.Cadastro.services.ContatoService;
+import com.essjr.Cadastro.Contato.dtos.ContatoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

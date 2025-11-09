@@ -1,7 +1,7 @@
-package com.essjr.Cadastro.model.Contato.mapper;
+package com.essjr.Cadastro.Contato.mapper;
 
-import com.essjr.Cadastro.model.Contato.Contato;
-import com.essjr.Cadastro.model.Contato.dtos.ContatoDTO;
+import com.essjr.Cadastro.Contato.Contato;
+import com.essjr.Cadastro.Contato.dtos.ContatoDTO;
 
 public class ContatoMapper {
 

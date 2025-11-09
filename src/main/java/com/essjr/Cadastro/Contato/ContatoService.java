@@ -1,15 +1,12 @@
-package com.essjr.Cadastro.services;
+package com.essjr.Cadastro.Contato;
 
-import com.essjr.Cadastro.model.Contato.Contato;
-import com.essjr.Cadastro.model.Contato.dtos.ContatoDTO;
-import com.essjr.Cadastro.repositories.ContatoRepository;
-import com.essjr.Cadastro.model.Contato.mapper.ContatoMapper;
+import com.essjr.Cadastro.Contato.dtos.ContatoDTO;
+import com.essjr.Cadastro.Contato.mapper.ContatoMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 
-import java.util.EnumSet;
 import java.util.List;
 
 @Service
@@ -56,7 +53,7 @@ public class ContatoService {
             Contato updated = contatoRepository.save(entity);
             return ContatoMapper.toDTO(updated);
         } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar o Contyato: " + e.getMessage(), e);
+            throw new RuntimeException("Erro ao atualizar o Contato: " + e.getMessage(), e);
         }
     }
 

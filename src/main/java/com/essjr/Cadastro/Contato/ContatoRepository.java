@@ -1,6 +1,5 @@
-package com.essjr.Cadastro.repositories;
+package com.essjr.Cadastro.Contato;
 
-import com.essjr.Cadastro.model.Contato.Contato;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
