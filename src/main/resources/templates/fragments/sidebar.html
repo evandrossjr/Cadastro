@@ -1,29 +1,29 @@
-<div th:fragment="sidebar" xmlns:th="http://www.thymeleaf.org">
+<div th:fragment="sidebar" xmlns:th="http://www.thymeleaf.org" style="display: flex; flex-direction: column; height: 100%;">
     <div >
 
         <div class="logo-svg" style="text-align: center;"> <a href="/cliente/lista" style="display: flex; flex-direction: column; align-items: center; text-decoration: none;">
 
             <img th:src="@{/images/logo_c_a.png}" alt="Logo C.A" width="150" height="150" />
 
-            <span class="logo-text" style="color: white; margin-top: 5px;">Cadastro de Clientes - C.A</span>
+            <span class="logo-text" style="color: white; margin-top: 5px;">Cadastro de Clientes</span>
         </a>
         </div>
         <div>
 
-            <a href="/cliente/lista">Lista de Clientes</a>
-            <a href="/cliente/cadastro">Cadastro de Clientes</a>
-            <a href="/contato/lista">Lista de Contatos</a>
-            <a href="/contato/cadastro">Cadastro de Contatos</a>
-            <a href="/relatorio">Relatório</a>
+            <a class="link" href="/cliente/lista">Lista de Clientes</a>
+            <a class="link" href="/cliente/cadastro">Cadastro de Clientes</a>
+            <a class="link" href="/contato/lista">Lista de Contatos</a>
+            <a class="link" href="/contato/cadastro">Cadastro de Contatos</a>
+            <a class="link" href="/relatorio">Relatório</a>
 
-            <a href="/perfil/editar">Editar Senha</a>
+            <a class="link" href="/perfil/editar">Editar Senha</a>
         </div>
     </div>
 
-    <div sec:authorize="isAuthenticated()">
+    <div sec:authorize="isAuthenticated()" style="margin-top: auto;">
         <form th:action="@{/logout}" method="post" style="margin: 0;">
             <button type="submit"
-                    style="all: unset; display: block; width: 100%; padding: 10px 20px; color: white; text-align: left; cursor: pointer;">
+                    style="all: unset; display: block; width: 100%; padding: 10px 20px; color: red; text-align: left; cursor: pointer;">
                 Sair
             </button>
         </form>
