@@ -109,8 +109,9 @@ spring.jpa.hibernate.ddl-auto=update
 
 ### Acesse o sistema
 - Acesse pelo navegador
-  -- http://localhost:8080
-
+  - http://localhost:8080
+- Acesse tambem pela web (Está hospedado no Render e pode demorar cerca de 5 minutos para subir a aplicação)
+  - https://ca-crm-lufu.onrender.com
 ---
 
 ## Usuários de Demonstração
