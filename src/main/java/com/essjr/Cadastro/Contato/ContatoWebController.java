@@ -109,7 +109,7 @@ public class ContatoWebController {
     public String excluirCliente(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         contatoService.delete(id);
         redirectAttributes.addFlashAttribute("mensagem", "Contato excluído com sucesso!");
-        return "redirect:/cliente/lista";
+        return "redirect:/contato/lista";
     }
 
 

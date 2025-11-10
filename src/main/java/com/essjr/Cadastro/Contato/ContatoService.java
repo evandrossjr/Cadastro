@@ -1,8 +1,11 @@
 package com.essjr.Cadastro.Contato;
 
+import com.essjr.Cadastro.Cliente.Cliente;
+import com.essjr.Cadastro.Cliente.ClienteRepository;
 import com.essjr.Cadastro.Contato.dtos.ContatoDTO;
 import com.essjr.Cadastro.Contato.mapper.ContatoMapper;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
@@ -12,8 +15,14 @@ import java.util.List;
 @Service
 public class ContatoService {
 
-    @Autowired
-    private ContatoRepository contatoRepository;
+
+    private final ContatoRepository contatoRepository;
+    private final ClienteRepository clienteRepository;
+
+    public ContatoService(ContatoRepository contatoRepository, ClienteRepository clienteRepository) {
+        this.contatoRepository = contatoRepository;
+        this.clienteRepository = clienteRepository;
+    }
 
 
     public List<ContatoDTO> findAll(){
@@ -38,8 +47,18 @@ public class ContatoService {
         return ContatoMapper.toDTO(contatoSalvo);
     }
 
+    @Transactional
     public void delete(Long id){
-        contatoRepository.deleteById(id);
+        Contato contato = contatoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Contato não encontrado: " + id));
+
+        List<Cliente> clientesAssociados = clienteRepository.findByContatosContains(contato);
+
+        for (Cliente cliente : clientesAssociados) {
+            cliente.getContatos().remove(contato);
+        }
+
+        contatoRepository.delete(contato);
     }
 
     public ContatoDTO update(Long id, ContatoDTO dto){

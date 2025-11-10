@@ -1,6 +1,7 @@
 package com.essjr.Cadastro.Cliente;
 
 
+import ch.qos.logback.core.net.server.Client;
 import com.essjr.Cadastro.Cliente.dtos.ClienteDTO;
 import com.essjr.Cadastro.Cliente.mapper.ClienteMapper;
 import com.essjr.Cadastro.Contato.Contato;
@@ -59,7 +60,10 @@ public class ClienteService {
         return ClienteMapper.toDTO(clienteSalvo);
     }
 
+    @Transactional
     public void delete(Long id){
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente  não encontrado: " + id));
         clienteRepository.deleteById(id);
     }
 

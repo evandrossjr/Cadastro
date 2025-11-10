@@ -1,5 +1,6 @@
 package com.essjr.Cadastro.Cliente;
 
+import com.essjr.Cadastro.Contato.Contato;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -21,4 +22,10 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
      * @return Um Optional contendo o cliente duplicado, se houver
      */
     Optional<Cliente> findByEmailAndIdNot(String email, Long id);
+
+    /**
+     * Encontra todos os Clientes que contêm o Contato especificado
+     * em sua lista de contatos.
+     */
+    List<Cliente> findByContatosContains(Contato contato);
 }
