@@ -4,6 +4,8 @@ package com.essjr.Cadastro.Contato;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 
+import java.time.LocalDate;
+
 @Entity
 public class Contato {
 
@@ -49,6 +51,14 @@ public class Contato {
         this.emailAdicional = emailAdicional;
     }
 
+    public Contato( String nomeCompleto,  String email, String emailAdicional,String telefone, String telefoneAdicional) {
+        this.nomeCompleto = nomeCompleto;
+        this.email = email;
+        this.emailAdicional = emailAdicional;
+        this.telefone = telefone;
+        this.telefoneAdicional = telefoneAdicional;
+
+    }
     // GETTERS E SETTERS
 
 

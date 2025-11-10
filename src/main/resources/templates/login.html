@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Cadastro de Clientes C.A</title>
+    <link rel="stylesheet" th:href="@{/css/auth.css}">
+</head>
+<body class="auth-body">
+
+<div class="auth-card">
+
+    <img th:src="@{/images/logo_c_a.png}" alt="Logo C.A" class="logo">
+
+    <h1>Bem-vindo de volta!</h1>
+    <p class="subtitle">Insira seus dados para acessar sua conta.</p>
+
+    <div th:if="${param.error}" class="error-message">
+        E-mail ou senha inválidos.
+    </div>
+    <div th:if="${param.logout}" class="success-message">
+        Você foi desconectado com sucesso.
+    </div>
+
+    <form th:action="@{/login}" method="post">
+        <div class="form-group">
+            <label for="username">E-mail</label>
+            <input type="email" id="username" name="username" placeholder="seuemial@exemplo.com" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="password">Senha</label>
+            <input type="password" id="password" name="password" placeholder="Sua senha" required>
+        </div>
+        <button type="submit" class="btn">Entrar</button>
+    </form>
+
+    <div class="switch-form-link">
+        <span>Não tem uma conta? <a th:href="@{/register}">Cadastre-se</a></span>
+    </div>
+
+    <div class="demo-users">
+        <div class="demo-user-box" onclick="fillLoginForm('usuario@email.com', 'senha123')">
+            <span><strong>User Regular:</strong></span>
+            <span>usuario@email.com</span>
+        </div>
+        <div class="demo-user-box" onclick="fillLoginForm('admin@email.com', 'admin122')">
+            <span><strong>User Admin:</strong></span>
+            <span>admin@email.com</span>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Script para preencher o formulário
+    function fillLoginForm(email, password) {
+        document.getElementById('username').value = email;
+        document.getElementById('password').value = password;
+    }
+</script>
+
+</body>
+</html>

@@ -60,15 +60,17 @@ public class Cliente {
     public Cliente() {
     }
 
-    public Cliente(Long id, String nomeCompleto, String telefone, String telefoneAdicional, String email, String emailAdicional, LocalDate dataRegistro) {
-        this.id = id;
+    public Cliente( String nomeCompleto,  String email, String emailAdicional,String telefone, String telefoneAdicional, LocalDate dataRegistro) {
         this.nomeCompleto = nomeCompleto;
-        this.telefone = telefone;
-        this.telefoneAdicional = telefoneAdicional;
         this.email = email;
         this.emailAdicional = emailAdicional;
+        this.telefone = telefone;
+        this.telefoneAdicional = telefoneAdicional;
         this.dataRegistro = dataRegistro;
+
     }
+
+
 
     // GETTERS E SETTERS
 

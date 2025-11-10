@@ -1,13 +1,8 @@
-<!DOCTYPE html>
-<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8" />
-    <title>Cadastro de Clientes</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-</head>
-<body>
-<div class="content container mt-4">
-    <h2 class="mb-4 text-center">Cadastro de Clientes</h2>
+<div class="content container mt-4" xmlns:th="http://www.thymeleaf.org">
+
+    <h2 class="mb-4 text-center" th:text="${cliente.id == null} ? 'Cadastro de Clientes' : 'Editar Cliente'">
+        Cadastro de Clientes
+    </h2>
 
     <div th:if="${mensagem}" class="alert alert-success d-flex align-items-center" role="alert">
         <svg class="bi flex-shrink-0 me-2" width="24" height="24" fill="green" viewBox="0 0 16 16" role="img" aria-label="Success:">
@@ -25,7 +20,12 @@
 
     <div class="card shadow-sm form-container">
         <div class="card-body">
-            <form th:action="@{/cliente/cadastro}" th:object="${cliente}" method="post" novalidate>
+
+            <form th:action="${cliente.id == null} ? @{/cliente/cadastro} : @{/cliente/editar/{id}(id=${cliente.id})}"
+                  th:object="${cliente}"
+                  method="post"
+                  novalidate>
+
                 <div class="row">
                     <div class="mb-3">
                         <label for="nome" class="form-label">Nome Completo</label>
@@ -73,6 +73,3 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>

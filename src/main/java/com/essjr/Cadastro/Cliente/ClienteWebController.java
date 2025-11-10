@@ -7,9 +7,11 @@ import com.essjr.Cadastro.Contato.Contato;
 import com.essjr.Cadastro.Contato.ContatoService;
 import com.essjr.Cadastro.Contato.dtos.ContatoDTO;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -101,34 +103,58 @@ class ClienteWebController {
     }
 
 
-    @GetMapping("/editar/{id}")
-    public String editarCliente(@PathVariable Long id, Model model) {
-        ClienteDTO cliente = clienteService.findById(id);
 
-        model.addAttribute("conteudo", "editarCliente");
-        model.addAttribute("cliente", cliente);
-        model.addAttribute("todosOsContatos", contatoService.findAll());
+
+    /**
+     * Exibe o formulário de EDIÇÃO de cliente.
+     * @param id O ID do cliente vindo da URL
+     * @param model O Model para enviar dados ao Thymeleaf
+     * @return O nome do layout
+     */
+    @GetMapping("/editar/{id}")
+    public String mostrarFormularioEdicao(@PathVariable Long id, Model model) {
+
+        ClienteDTO clienteDTO = clienteService.findById(id);
+
+        List<ContatoDTO> todosOsContatos = contatoService.findAll();
+
+        model.addAttribute("cliente", clienteDTO);
+        model.addAttribute("todosOsContatos", todosOsContatos);
+
+        model.addAttribute("conteudo", "cadastroCliente");
+        model.addAttribute("titulo", "Editar Cliente");
 
         return "layout";
     }
 
     @PostMapping("/editar/{id}")
-    public String atualizarCliente(
+    public String processarFormularioEdicao(
             @PathVariable Long id,
-            @ModelAttribute ClienteDTO dto,
-            RedirectAttributes redirectAttributes,
-            Model model) {
+            @Valid @ModelAttribute("cliente") ClienteDTO dto,
+            BindingResult bindingResult,
+            Model model,
+            RedirectAttributes redirectAttributes) {
+
+        // Se houver erros de validação (ex: nome em branco)
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("erro", "Verifique os campos.");
+            model.addAttribute("todosOsContatos", contatoService.findAll()); // Repopula o <select>
+            model.addAttribute("conteudo", "cadastroCliente");
+            model.addAttribute("titulo", "Editar Cliente");
+            return "layout";
+        }
 
         try {
             clienteService.update(id, dto);
             redirectAttributes.addFlashAttribute("mensagem", "Cliente atualizado com sucesso!");
-            return "redirect:/cliente/editar/" + id;
+            return "redirect:/cliente/lista"; // Volta para a lista
 
         } catch (Exception e) {
-            model.addAttribute("erro", "Erro ao atualizar cliente: " + e.getMessage());
-            model.addAttribute("cliente", dto);
+            model.addAttribute("erro", e.getMessage());
             model.addAttribute("todosOsContatos", contatoService.findAll());
-            return "editarCliente";
+            model.addAttribute("conteudo", "cadastroCliente");
+            model.addAttribute("titulo", "Editar Cliente");
+            return "layout";
         }
     }
 
@@ -139,5 +165,6 @@ class ClienteWebController {
         redirectAttributes.addFlashAttribute("mensagem", "Cliente excluído com sucesso!");
         return "redirect:/cliente/lista";
     }
+
 
 }

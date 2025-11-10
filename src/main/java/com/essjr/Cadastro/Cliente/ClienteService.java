@@ -6,6 +6,7 @@ import com.essjr.Cadastro.Cliente.mapper.ClienteMapper;
 import com.essjr.Cadastro.Contato.Contato;
 import com.essjr.Cadastro.Contato.ContatoRepository;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
@@ -13,6 +14,7 @@ import org.springframework.web.client.ResourceAccessException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ClienteService {
@@ -61,19 +63,34 @@ public class ClienteService {
         clienteRepository.deleteById(id);
     }
 
-    public ClienteDTO update(Long id, ClienteDTO dto){
-        try{
-            Cliente entity = clienteRepository
-                    .findById(id).orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado com o: " + id));
+    @Transactional
+    public ClienteDTO update(Long id, ClienteDTO dto) {
 
-            Cliente updates = ClienteMapper.toEntity(dto);
-            updateData(entity, updates);
 
-            Cliente updated = clienteRepository.save(entity);
-            return ClienteMapper.toDTO(updated);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar o Cliente: " + e.getMessage(), e);
+        Optional<Cliente> duplicata = clienteRepository.findByEmailAndIdNot(dto.email(), id);
+        if (duplicata.isPresent()) {
+            throw new IllegalArgumentException("E-mail já cadastrado por outro usuário.");
         }
+
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Cliente não encontrado: " + id));
+
+        cliente.setNomeCompleto(dto.nomeCompleto());
+        cliente.setEmail(dto.email());
+        cliente.setEmailAdicional(dto.emailAdicional());
+        cliente.setTelefone(dto.telefone());
+        cliente.setTelefoneAdicional(dto.telefoneAdicional());
+
+        cliente.getContatos().clear();
+
+        if (dto.contatosIds() != null && !dto.contatosIds().isEmpty()) {
+            List<Contato> contatosSelecionados = contatoRepository.findAllById(dto.contatosIds());
+            cliente.setContatos(new HashSet<>(contatosSelecionados));
+        }
+
+        Cliente clienteSalvo = clienteRepository.save(cliente);
+
+        return ClienteMapper.toDTO(clienteSalvo);
     }
 
     private void updateData(Cliente entity, Cliente obj) {

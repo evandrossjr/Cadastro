@@ -59,6 +59,13 @@
                                     <li th:each="contato : ${cliente.contatos}">
                                         <strong><span th:text="${contato.nomeCompleto}"></span>:</strong>
                                         <span th:text="${contato.telefone}"></span>
+                                        <span > / </span>
+                                        <span th:text="${contato.telefoneAdicional}"></span>
+                                        <span > / </span>
+                                        <span th:text="${contato.email}"></span>
+                                        <span > / </span>
+                                        <span th:text="${contato.emailAdicional}"></span>
+                                        <span > / </span>
                                     </li>
                                 </ul>
                             </div>
