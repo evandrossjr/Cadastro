@@ -23,7 +23,7 @@ RUN mvn package -DskipTests
 # ESTÁGIO 2: Imagem Final de Execução
 # Usamos uma imagem JRE (Java Runtime Environment) enxuta com Java 21, que é menor
 # e mais segura por não conter as ferramentas de compilação.
-FROM eclipse-temurin:21-jre-focal
+FROM eclipse-temurin:21-jre-jammy
 
 # Define o diretório de trabalho.
 WORKDIR /app

@@ -1,6 +1,6 @@
 <p align="center">
   <img src="https://img.shields.io/badge/Spring%20Boot-3.0-brightgreen?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot" />
-  <img src="https://img.shields.io/badge/Java-17-orange?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" />
+  <img src="https://img.shields.io/badge/Java-21-orange?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java" />
   <img src="https://img.shields.io/badge/Thymeleaf-3.1-brightgreen?style=for-the-badge&logo=thymeleaf&logoColor=white" alt="Thymeleaf" />
   <img src="https://img.shields.io/badge/Spring%20Security-secure-blue?style=for-the-badge&logo=springsecurity&logoColor=white" alt="Spring Security" />
   <img src="https://img.shields.io/badge/Bootstrap-5-purple?style=for-the-badge&logo=bootstrap&logoColor=white" alt="Bootstrap" />
@@ -54,7 +54,7 @@
 ## Stack de Tecnologia
 
 ### Backend
-- Java 17+  
+- Java 21  
 - Spring Boot 3+  
 - Spring MVC (Web)  
 - Spring Data JPA (Hibernate)  
