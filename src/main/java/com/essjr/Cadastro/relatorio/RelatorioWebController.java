@@ -46,34 +46,31 @@ public class RelatorioWebController {
     @GetMapping("/pdf")
     public void exportarRelatorioPdf(HttpServletResponse response) {
         try {
-            // 1. Buscar os dados (vem com duplicatas por causa do Join)
             List<Cliente> clientesComDuplicatas = clienteRepository.findAllWithContatos();
 
-            // 2. --- CORREÇÃO DE DUPLICATAS ---
             //    Um LinkedHashSet remove duplicatas e mantém a ordem de inserção.
-            //    (Isso requer que sua entidade Cliente tenha .equals() e .hashCode())
             List<Cliente> clientesUnicos = new ArrayList<>(new LinkedHashSet<>(clientesComDuplicatas));
 
-            // 3. Preparar o Contexto do Thymeleaf
+            // Preparar o Contexto do Thymeleaf
             Context context = new Context();
             context.setVariable("clientes", clientesUnicos); // <-- Passa a lista limpa
             context.setVariable("dataAtual", java.time.LocalDate.now());
             context.setVariable("horaAtual", java.time.LocalTime.now());
 
-            // 4. --- MUDANÇA DE TEMPLATE ---
-            //    Processa o novo template de PDF, não o fragmento
-            String htmlContent = templateEngine.process("relatorioClientePDF", context);
 
-            // 5. Configurar a Resposta do HTTP (continua igual)
+            //    Processa o novo template de PDF, não o fragmento
+            String htmlContent = templateEngine.process("relatorioClientesPDF", context);
+
+            //  Configurar a Resposta do HTTP
             response.setContentType("application/pdf");
             response.setHeader("Content-Disposition", "attachment; filename=\"relatorio_clientes.pdf\"");
 
-            // 6. Usar o Flying Saucer (continua igual)
+            //  Usar o Flying Saucer
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(htmlContent);
             renderer.layout();
 
-            // 7. Escrever o PDF (continua igual)
+            //  Escrever o PDF
             OutputStream outputStream = response.getOutputStream();
             renderer.createPDF(outputStream);
             outputStream.close();
