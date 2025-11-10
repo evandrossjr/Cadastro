@@ -26,11 +26,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
 
-                        // --- CORREJA ESTA LINHA ---
-                        // Agrupe todas as permissões públicas aqui
                         .requestMatchers("/login", "/register", "/css/**", "/js/**", "/images/**").permitAll()
 
-                        // Exige autenticação para todo o resto
                         .anyRequest().authenticated()
                 )
                 .userDetailsService(jpaUserDetailsService)

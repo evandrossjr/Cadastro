@@ -4,7 +4,8 @@ import jakarta.validation.constraints.*;
 
 public record ContatoDTO (Long id,
                           @NotBlank String nomeCompleto,
-                          @Email String email,
-                          @Email String emailAdicional,
                           @NotNull String telefone,
-                          String telefoneAdicional){}
+                          String telefoneAdicional,
+                          @Email String email,
+                          @Email String emailAdicional
+                          ){}

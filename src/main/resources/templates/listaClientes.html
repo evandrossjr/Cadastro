@@ -1,7 +1,9 @@
 <div class="content" xmlns:th="http://www.w3.org/1999/xhtml">
 
     <div class="mb-4">
-        <h1 th:text="'Bem-vindo(a)!'">Bem-vindo!</h1>
+
+        <h1 th:text="'Bem-vindo(a), ' + ${usuarioLogado.nome} + '!'">Bem-vindo!</h1>
+
         <p>Lista de Clientes</p>
     </div>
 
@@ -65,7 +67,6 @@
                                         <span th:text="${contato.email}"></span>
                                         <span > / </span>
                                         <span th:text="${contato.emailAdicional}"></span>
-                                        <span > / </span>
                                     </li>
                                 </ul>
                             </div>

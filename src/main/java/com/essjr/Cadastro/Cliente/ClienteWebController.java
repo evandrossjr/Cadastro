@@ -1,6 +1,10 @@
 package com.essjr.Cadastro.Cliente;
 
 
+import com.essjr.Cadastro.AppUser.AppUser;
+import com.essjr.Cadastro.AppUser.AppUserRepository;
+import com.essjr.Cadastro.AppUser.dtos.AppUserDTO;
+import com.essjr.Cadastro.AppUser.dtos.AppUserLogadoDTO;
 import com.essjr.Cadastro.Cliente.ClienteService;
 import com.essjr.Cadastro.Cliente.dtos.ClienteDTO;
 import com.essjr.Cadastro.Contato.Contato;
@@ -9,6 +13,7 @@ import com.essjr.Cadastro.Contato.dtos.ContatoDTO;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -27,11 +32,13 @@ class ClienteWebController {
     private final ClienteService clienteService;
     private final ContatoService contatoService;
     private final ClienteRepository clienteRepository;
+    private final AppUserRepository appUserRepository;
 
-    ClienteWebController(ClienteService clienteService, ContatoService contatoService, ClienteRepository clienteRepository) {
+    ClienteWebController(ClienteService clienteService, ContatoService contatoService, ClienteRepository clienteRepository, AppUserRepository appUserRepository) {
         this.clienteService = clienteService;
         this.contatoService = contatoService;
         this.clienteRepository = clienteRepository;
+        this.appUserRepository = appUserRepository;
     }
 
 
@@ -67,8 +74,11 @@ class ClienteWebController {
     }
 
     @GetMapping("/lista")
-    public String ListarClientes(Model model) {
+    public String ListarClientes(Model model, @AuthenticationPrincipal AppUser appUser) {
 
+        var dto = new AppUserLogadoDTO(appUser.getName(), appUser.getEmail());
+
+        model.addAttribute("usuarioLogado", dto);
         model.addAttribute("titulo", "Lista de Clientes");
         model.addAttribute("conteudo", "listaClientes");
 
@@ -147,7 +157,7 @@ class ClienteWebController {
         try {
             clienteService.update(id, dto);
             redirectAttributes.addFlashAttribute("mensagem", "Cliente atualizado com sucesso!");
-            return "redirect:/cliente/lista"; // Volta para a lista
+            return "redirect:/cliente/lista";
 
         } catch (Exception e) {
             model.addAttribute("erro", e.getMessage());
