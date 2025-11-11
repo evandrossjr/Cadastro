@@ -49,6 +49,19 @@
 
 ---
 
+## Screenshots
+
+<p align="center">
+  <b>Tela de Login</b><br>
+  <img src="./.github/assets/tela-login.png" width="700" alt="Tela de Login">
+</p>
+<p align="center">
+  <b>Lista de Clientes (com contatos)</b><br>
+  <img src="./.github/assets/tela-lista.png" width="700" alt="Lista de Clientes">
+</p>
+
+---
+
 ## Stack de Tecnologia
 
 ### Backend
