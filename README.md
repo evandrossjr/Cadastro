@@ -59,6 +59,11 @@
   <b>Lista de Clientes (com contatos)</b><br>
   <img src="./.github/assets/tela-lista.png" width="700" alt="Lista de Clientes">
 </p>
+<p align="center">
+  <b>Relatório de Clientes em PDF (com contatos)</b><br>
+  <img src="./.github/assets/relatorio-pdf.png" width="700" alt="Lista de Clientes">
+</p>
+
 
 ---
 

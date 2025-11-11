@@ -1,88 +1,161 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http:
+www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Relatório de Clientes</title>
+
     <style type="text/css">
         body {
             font-family: Arial, sans-serif;
-            font-size: 10px; /* Letra menor */
+            font-size: 10px;
         }
-        table {
+
+        /* --- ESTILOS DO CABEÇALHO --- */
+        .header-table {
             width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 10px;
-        }
-        th, td {
-            border: 1px solid #999;
-            padding: 5px; /* Menor padding */
-            text-align: left;
-        }
-        th {
-            background-color: #f0f0f0;
-            text-align: center;
-        }
-        .header {
-            text-align: center;
+            border: none;
             margin-bottom: 20px;
         }
-        .cliente-row {
-            background-color: #e6f0ff; /* Azul claro */
+        .header-table td {
+            width: 33.33%;
+            padding: 0;
+            border: none;
+            vertical-align: middle;
+        }
+        .header-left {
+            text-align: left;
+        }
+        .header-center {
+            text-align: center;
+        }
+        .header-right {
+            text-align: right;
+            font-size: 9px;
+        }
+        .header-center h1 {
+            margin: 0;
+            font-size: 18px;
+        }
+        .logo {
+            width: 50px;
+            height: 50px;
+        }
+        /* --- FIM DOS ESTILOS DO CABEÇALHO --- */
+
+
+        /* --- ESTILOS DO RELATÓRIO --- */
+        .client-block {
+            border: 1px solid #999;
+            margin-bottom: 10px;
+            width: 100%;
+            page-break-inside: avoid;
+        }
+        .client-block table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        .client-block td {
+            padding: 3px 5px;
+            vertical-align: top;
+            text-align: left;
+        }
+        .label {
+            font-weight: bold;
+            width: 100px;
+        }
+        .client-info {
+            background-color: #006e4e;
+            padding: 5px;
+            border-bottom: 1px solid #ccc;
+            color: white;
+        }
+        .client-info .data {
             font-weight: bold;
         }
-        .contato-row td {
-            background-color: #f9f9f9; /* Cinza bem claro */
-            padding-left: 25px; /* Indentação do contato */
+        .contatos-section {
+            padding: 5px;
+        }
+        .contato-item {
             font-style: italic;
+            border-top: 1px dotted #ccc;
+            padding: 5px 0;
+            margin-top: 5px;
+        }
+        .contatos-section .contato-item:first-child {
+             border-top: none;
+             margin-top: 0;
+             padding-top: 0;
+        }
+        .contato-item .label-contato {
+            font-weight: normal;
+            width: 100px;
+            padding-left: 10px;
         }
     </style>
 </head>
 <body>
 
-<div class="header">
-    <h1>Relatório de Clientes</h1>
-    <p>
-        Data: <span th:text="${#temporals.format(dataAtual, 'dd/MM/yyyy')}"></span> |
-        Hora: <span th:text="${#temporals.format(horaAtual, 'HH:mm:ss')}"></span>
-    </p>
-</div>
-
-<table th:each="cliente : ${clientes}">
-    <thead>
+<table class="header-table">
     <tr>
-        <th>Cliente</th>
-        <th>Telefones (Cliente)</th>
-        <th>Emails (Cliente)</th>
-        <th>Data Cadastro</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="cliente-row">
-        <td th:text="${cliente.nomeCompleto}">Cliente 1</td>
-        <td th:text="${cliente.telefone} + ' / ' + ${cliente.telefoneAdicional}"></td>
-        <td th:text="${cliente.email} + ' / ' + ${cliente.emailAdicional}"></td>
-        <td th:text="${#temporals.format(cliente.dataRegistro, 'dd/MM/yyyy')}"></td>
-    </tr>
-
-    <tr th:if="${!#lists.isEmpty(cliente.contatos)}">
-        <td colspan="4" style="padding: 0; border: none;">
-            <table style="width: 100%; margin: 0; border: none;">
-                <tr th:each="contato : ${cliente.contatos}" class="contato-row">
-                    <td style="width: 25%;" th:text="${contato.nomeCompleto}">- Contato 1</td>
-                    <td style="width: 25%;" th:text="${contato.telefone} + ' / ' + ${contato.telefoneAdicional}"></td>
-                    <td style="width: 25%;" th:text="${contato.email} + ' / ' + ${contato.emailAdicional}"></td>
-                    <td style="width: 25%;"></td> </tr>
-            </table>
+        <td class="header-left">
+            <img src="images/logo_c_a.png" alt="Logo" class="logo"/>
+        </td>
+        <td class="header-center">
+            <h1>Relatório de Clientes</h1>
+        </td>
+        <td class="header-right">
+            Data: <span th:text="${#temporals.format(dataAtual, 'dd/MM/yyyy')}"></span>
+            <br/> Hora: <span th:text="${#temporals.format(horaAtual, 'HH:mm:ss')}"></span>
         </td>
     </tr>
-
-    <tr th:if="${#lists.isEmpty(cliente.contatos)}">
-        <td colspan="4" style="padding-left: 25px; font-style: italic;">
-            Nenhum contato cadastrado para este cliente.
-        </td>
-    </tr>
-    </tbody>
 </table>
 
+<div th:each="cliente : ${clientes}" class="client-block">
+
+    <div class="client-info">
+        <table>
+            <tr>
+                <td class="label">Cliente:</td>
+                <td class="data" th:text="${cliente.nomeCompleto}">[Nome do Cliente]</td>
+            </tr>
+            <tr>
+                <td class="label">Telefones:</td>
+                <td class="data" th:text="${cliente.telefone} + ' / ' + ${cliente.telefoneAdicional}">[Telefones]</td>
+            </tr>
+            <tr>
+                <td class="label">Emails:</td>
+                <td class="data" th:text="${cliente.email} + ' / ' + ${cliente.emailAdicional}">[Emails]</td>
+            </tr>
+            <tr>
+                <td class="label">Data Cadastro:</td>
+                <td class="data" th:text="${#temporals.format(cliente.dataRegistro, 'dd/MM/yyyy')}">[Data]</td>
+            </tr>
+        </table>
+    </div>
+    <div class="contatos-section">
+
+        <div th:if="${#lists.isEmpty(cliente.contatos)}" style="font-style: italic; padding-left: 10px;">
+            Nenhum contato cadastrado.
+        </div>
+
+        <div th:each="contato : ${cliente.contatos}" class="contato-item">
+            <table>
+                <tr>
+                    <td class="label-contato">Contato:</td>
+                    <td class="data" th:text="${contato.nomeCompleto}">[Nome Contato]</td>
+                </tr>
+                <tr>
+                    <td class="label-contato">Telefones:</td>
+                    <td class="data" th:text="${contato.telefone} + ' / ' + ${contato.telefoneAdicional}">[Telefones]</td>
+                </tr>
+                <tr>
+                    <td class="label-contato">Emails:</td>
+                    <td class="data" th:text="${contato.email} + ' / ' + ${contato.emailAdicional}">[Emails]</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
 </body>
 </html>
