@@ -152,7 +152,7 @@
 ## Como Rodar o Projeto
 
 ### Pré-requisitos
-- **JDK 17** ou superior  
+- **JDK 21** ou superior  
 - **Apache Maven**  
 - Uma IDE (IntelliJ, VS Code, Eclipse, etc.)
 
@@ -185,11 +185,19 @@ spring.jpa.hibernate.ddl-auto=update
 ```
 
 ### Acesse o sistema
-- Acesse pelo navegador
-  - http://localhost:8080
+- Acesse pelo navegador: 
+http://localhost:8080
+ 
+### Documentação da API
+- Após rodar o projeto, acesse a documentação interativa do Swagger em: 
+http://localhost:8080/swagger-ui.html
+
     
-- Acesse tambem pela web (Está hospedado no Render e pode demorar cerca de 5 minutos para subir a aplicação)
-  - https://ca-crm-lufu.onrender.com
+### Acesse tambem pela web 
+- O projeto está hospedado no Render e pode demorar cerca de 5 minutos para subir a aplicação: 
+https://ca-crm-lufu.onrender.com
+ 
+  
     
 ---
 
@@ -208,4 +216,6 @@ O sistema cria automaticamente dois usuários (via DataLoader.java) caso o banco
 
 - **Evandro Sacramento**
 - [GitHub](https://github.com/evandrossjr)
+- [Linkedin](https://www.linkedin.com/in/evandrosacramento/)
 - [evandro-dev@outlook.com](mailto:evandro-dev@outlook.com)
+
