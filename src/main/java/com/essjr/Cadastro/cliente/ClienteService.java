@@ -1,11 +1,10 @@
-package com.essjr.Cadastro.Cliente;
+package com.essjr.Cadastro.cliente;
 
 
-import ch.qos.logback.core.net.server.Client;
-import com.essjr.Cadastro.Cliente.dtos.ClienteDTO;
-import com.essjr.Cadastro.Cliente.mapper.ClienteMapper;
-import com.essjr.Cadastro.Contato.Contato;
-import com.essjr.Cadastro.Contato.ContatoRepository;
+import com.essjr.Cadastro.cliente.dtos.ClienteDTO;
+import com.essjr.Cadastro.cliente.mapper.ClienteMapper;
+import com.essjr.Cadastro.contato.Contato;
+import com.essjr.Cadastro.contato.ContatoRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;

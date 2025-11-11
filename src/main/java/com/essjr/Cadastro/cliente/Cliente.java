@@ -1,6 +1,6 @@
-package com.essjr.Cadastro.Cliente;
+package com.essjr.Cadastro.cliente;
 
-import com.essjr.Cadastro.Contato.Contato;
+import com.essjr.Cadastro.contato.Contato;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.annotations.CreationTimestamp;

@@ -1,10 +1,8 @@
-package com.essjr.Cadastro.Contato;
+package com.essjr.Cadastro.contato;
 
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Pattern;
-
-import java.time.LocalDate;
 
 @Entity
 public class Contato {

@@ -1,9 +1,9 @@
 package com.essjr.Cadastro.auth;
 
-import com.essjr.Cadastro.AppUser.AppUser;
-import com.essjr.Cadastro.AppUser.AppUserRepository;
-import com.essjr.Cadastro.AppUser.dtos.AppUserRegistrationDTO;
-import com.essjr.Cadastro.AppUser.enums.AppUserRole;
+import com.essjr.Cadastro.appUser.AppUser;
+import com.essjr.Cadastro.appUser.AppUserRepository;
+import com.essjr.Cadastro.appUser.dtos.AppUserRegistrationDTO;
+import com.essjr.Cadastro.appUser.enums.AppUserRole;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 

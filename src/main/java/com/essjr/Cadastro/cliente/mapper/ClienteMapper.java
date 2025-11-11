@@ -1,8 +1,8 @@
-package com.essjr.Cadastro.Cliente.mapper;
+package com.essjr.Cadastro.cliente.mapper;
 
-import com.essjr.Cadastro.Cliente.Cliente;
-import com.essjr.Cadastro.Cliente.dtos.ClienteDTO;
-import com.essjr.Cadastro.Contato.Contato;
+import com.essjr.Cadastro.cliente.Cliente;
+import com.essjr.Cadastro.cliente.dtos.ClienteDTO;
+import com.essjr.Cadastro.contato.Contato;
 
 import java.util.ArrayList;
 import java.util.List;

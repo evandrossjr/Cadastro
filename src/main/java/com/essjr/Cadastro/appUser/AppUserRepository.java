@@ -1,4 +1,4 @@
-package com.essjr.Cadastro.AppUser;
+package com.essjr.Cadastro.appUser;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

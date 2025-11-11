@@ -1,6 +1,6 @@
-package com.essjr.Cadastro.AppUser;
+package com.essjr.Cadastro.appUser;
 
-import com.essjr.Cadastro.AppUser.enums.AppUserRole;
+import com.essjr.Cadastro.appUser.enums.AppUserRole;
 import jakarta.persistence.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

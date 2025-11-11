@@ -1,13 +1,12 @@
 package com.essjr.Cadastro;
 
-import com.essjr.Cadastro.AppUser.AppUser;
-import com.essjr.Cadastro.AppUser.AppUserRepository;
-import com.essjr.Cadastro.AppUser.enums.AppUserRole;
-import com.essjr.Cadastro.Cliente.Cliente;
-import com.essjr.Cadastro.Cliente.ClienteRepository;
-import com.essjr.Cadastro.Contato.Contato;
-import com.essjr.Cadastro.Contato.ContatoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.essjr.Cadastro.appUser.AppUser;
+import com.essjr.Cadastro.appUser.AppUserRepository;
+import com.essjr.Cadastro.appUser.enums.AppUserRole;
+import com.essjr.Cadastro.cliente.Cliente;
+import com.essjr.Cadastro.cliente.ClienteRepository;
+import com.essjr.Cadastro.contato.Contato;
+import com.essjr.Cadastro.contato.ContatoRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;

@@ -1,6 +1,6 @@
-package com.essjr.Cadastro.AppUser.dtos;
+package com.essjr.Cadastro.appUser.dtos;
 
-import com.essjr.Cadastro.AppUser.enums.AppUserRole;
+import com.essjr.Cadastro.appUser.enums.AppUserRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

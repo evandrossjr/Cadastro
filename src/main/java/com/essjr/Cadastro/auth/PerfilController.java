@@ -1,7 +1,7 @@
 package com.essjr.Cadastro.auth;
 
-import com.essjr.Cadastro.AppUser.AppUser;
-import com.essjr.Cadastro.AppUser.AppUserRepository;
+import com.essjr.Cadastro.appUser.AppUser;
+import com.essjr.Cadastro.appUser.AppUserRepository;
 import com.essjr.Cadastro.auth.dtos.EditarUsuarioDTO;
 import jakarta.validation.Valid;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

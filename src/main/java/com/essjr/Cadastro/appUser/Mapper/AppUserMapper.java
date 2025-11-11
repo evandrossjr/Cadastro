@@ -1,7 +1,7 @@
-package com.essjr.Cadastro.AppUser.Mapper;
+package com.essjr.Cadastro.appUser.Mapper;
 
-import com.essjr.Cadastro.AppUser.AppUser;
-import com.essjr.Cadastro.AppUser.dtos.AppUserDTO;
+import com.essjr.Cadastro.appUser.AppUser;
+import com.essjr.Cadastro.appUser.dtos.AppUserDTO;
 
 public class AppUserMapper {
 

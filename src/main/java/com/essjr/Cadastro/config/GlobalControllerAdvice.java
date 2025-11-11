@@ -1,7 +1,7 @@
 package com.essjr.Cadastro.config;
 
-import com.essjr.Cadastro.AppUser.AppUser;
-import com.essjr.Cadastro.AppUser.dtos.AppUserLogadoDTO;
+import com.essjr.Cadastro.appUser.AppUser;
+import com.essjr.Cadastro.appUser.dtos.AppUserLogadoDTO;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ModelAttribute;

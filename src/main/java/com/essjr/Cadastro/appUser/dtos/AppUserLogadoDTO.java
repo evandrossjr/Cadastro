@@ -1,4 +1,4 @@
-package com.essjr.Cadastro.AppUser.dtos;
+package com.essjr.Cadastro.appUser.dtos;
 
 public class AppUserLogadoDTO {
     private String nome;

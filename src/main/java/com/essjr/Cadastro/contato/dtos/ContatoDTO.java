@@ -1,4 +1,4 @@
-package com.essjr.Cadastro.Contato.dtos;
+package com.essjr.Cadastro.contato.dtos;
 
 import jakarta.validation.constraints.*;
 

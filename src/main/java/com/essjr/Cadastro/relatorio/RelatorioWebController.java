@@ -1,7 +1,7 @@
 package com.essjr.Cadastro.relatorio;
 
-import com.essjr.Cadastro.Cliente.Cliente;
-import com.essjr.Cadastro.Cliente.ClienteRepository;
+import com.essjr.Cadastro.cliente.Cliente;
+import com.essjr.Cadastro.cliente.ClienteRepository;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

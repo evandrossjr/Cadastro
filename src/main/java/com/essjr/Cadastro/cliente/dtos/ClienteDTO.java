@@ -1,4 +1,4 @@
-package com.essjr.Cadastro.Cliente.dtos;
+package com.essjr.Cadastro.cliente.dtos;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

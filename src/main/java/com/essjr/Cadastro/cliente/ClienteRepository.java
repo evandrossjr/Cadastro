@@ -1,6 +1,6 @@
-package com.essjr.Cadastro.Cliente;
+package com.essjr.Cadastro.cliente;
 
-import com.essjr.Cadastro.Contato.Contato;
+import com.essjr.Cadastro.contato.Contato;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

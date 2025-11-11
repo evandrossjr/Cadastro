@@ -1,6 +1,6 @@
 package com.essjr.Cadastro.auth;
 
-import com.essjr.Cadastro.AppUser.AppUserRepository;
+import com.essjr.Cadastro.appUser.AppUserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

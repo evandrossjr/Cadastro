@@ -1,18 +1,15 @@
-package com.essjr.Cadastro.Cliente;
+package com.essjr.Cadastro.cliente;
 
 
-import com.essjr.Cadastro.AppUser.AppUser;
-import com.essjr.Cadastro.AppUser.AppUserRepository;
-import com.essjr.Cadastro.AppUser.dtos.AppUserDTO;
-import com.essjr.Cadastro.AppUser.dtos.AppUserLogadoDTO;
-import com.essjr.Cadastro.Cliente.ClienteService;
-import com.essjr.Cadastro.Cliente.dtos.ClienteDTO;
-import com.essjr.Cadastro.Contato.Contato;
-import com.essjr.Cadastro.Contato.ContatoService;
-import com.essjr.Cadastro.Contato.dtos.ContatoDTO;
-import jakarta.persistence.EntityNotFoundException;
+import com.essjr.Cadastro.appUser.AppUser;
+import com.essjr.Cadastro.appUser.AppUserRepository;
+import com.essjr.Cadastro.appUser.dtos.AppUserLogadoDTO;
+import com.essjr.Cadastro.cliente.dtos.ClienteDTO;
+import com.essjr.Cadastro.contato.ContatoService;
+import com.essjr.Cadastro.contato.dtos.ContatoDTO;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,10 +17,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Tag(name = "Clientes", description = "Gerencia o cadastro de clientes")
 @Controller
 @RequestMapping("/cliente")
 class ClienteWebController {
@@ -42,6 +40,12 @@ class ClienteWebController {
     }
 
 
+    /**
+     * Retorna a tela de CADASTRO de clientes.
+     *
+     * @param model O Model usado para enviar dados ao Thymeleaf.
+     * @return O layout contendo o formulário de cadastro de clientes.
+     */
     @GetMapping("/cadastro")
     public String mostrarFormularioCadastro(Model model) {
 
@@ -54,6 +58,15 @@ class ClienteWebController {
         return "layout";
     }
 
+
+    /**
+     * Processa o envio do formulário de CADASTRO de clientes.
+     *
+     * @param dto Os dados do cliente enviados pelo formulário.
+     * @param redirectAttributes Usado para enviar mensagens de sucesso ou erro após redirecionamento.
+     * @param model O Model para recarregar a página em caso de erro.
+     * @return Redirecionamento ou renderização do layout conforme o resultado.
+     */
     @PostMapping("/cadastro")
     public String salvarViaFormulario(@ModelAttribute ClienteDTO dto, RedirectAttributes redirectAttributes, Model model) {
         try {
@@ -73,6 +86,14 @@ class ClienteWebController {
         }
     }
 
+
+    /**
+     * Exibe a lista de clientes cadastrados.
+     *
+     * @param model O Model usado para enviar dados ao Thymeleaf.
+     * @param appUser O usuário autenticado para exibição no cabeçalho.
+     * @return O layout contendo a lista de clientes.
+     */
     @GetMapping("/lista")
     public String ListarClientes(Model model, @AuthenticationPrincipal AppUser appUser) {
 
@@ -89,37 +110,40 @@ class ClienteWebController {
         return "layout";
     }
 
+
+    /**
+     * Exibe os contatos associados a um cliente específico.
+     *
+     * @param clienteId O ID do cliente cujos contatos serão listados.
+     * @param model O Model usado para enviar dados ao Thymeleaf.
+     * @return O layout contendo a lista de contatos do cliente.
+     */
     @GetMapping("/cliente/{clienteId}/contatos")
     public String listarContatosDoCliente(@PathVariable Long clienteId, Model model) {
 
-        // 1. Busca o cliente (como DTO)
         ClienteDTO cliente = clienteService.findById(clienteId);
 
-        // 2. Busca os DTOs dos contatos, não apenas os IDs
         List<ContatoDTO> contatosDoCliente;
         if (cliente.contatosIds() != null && !cliente.contatosIds().isEmpty()) {
-            // Usa o novo método do ContatoService
             contatosDoCliente = contatoService.findAllByIds(cliente.contatosIds());
         } else {
-            contatosDoCliente = new ArrayList<>(); // Lista vazia
+            contatosDoCliente = new ArrayList<>();
         }
 
-        // 3. Envia os DADOS COMPLETOS para o model
         model.addAttribute("cliente", cliente);
-        model.addAttribute("contatos", contatosDoCliente); // <-- Agora é uma List<ContatoDTO>
+        model.addAttribute("contatos", contatosDoCliente);
         model.addAttribute("titulo", "Contatos de " + cliente.nomeCompleto());
         model.addAttribute("conteudo", "listaContatosDoCliente");
         return "layout";
     }
 
 
-
-
     /**
-     * Exibe o formulário de EDIÇÃO de cliente.
-     * @param id O ID do cliente vindo da URL
-     * @param model O Model para enviar dados ao Thymeleaf
-     * @return O nome do layout
+     * Exibe o formulário para edição de um cliente.
+     *
+     * @param id O ID do cliente a ser editado.
+     * @param model O Model usado para enviar dados ao Thymeleaf.
+     * @return O layout contendo o formulário de edição do cliente.
      */
     @GetMapping("/editar/{id}")
     public String mostrarFormularioEdicao(@PathVariable Long id, Model model) {
@@ -137,6 +161,17 @@ class ClienteWebController {
         return "layout";
     }
 
+
+    /**
+     * Processa o envio do formulário de edição de cliente.
+     *
+     * @param id O ID do cliente a ser atualizado.
+     * @param dto Os novos dados do cliente.
+     * @param bindingResult Resultado da validação do formulário.
+     * @param model O Model para recarregar dados em caso de erro.
+     * @param redirectAttributes Usado para mensagens de feedback.
+     * @return Redirecionamento ou renderização do layout conforme o resultado.
+     */
     @PostMapping("/editar/{id}")
     public String processarFormularioEdicao(
             @PathVariable Long id,
@@ -168,7 +203,13 @@ class ClienteWebController {
         }
     }
 
-
+    /**
+     * Exclui um cliente pelo ID informado.
+     *
+     * @param id O ID do cliente a ser excluído.
+     * @param redirectAttributes Usado para enviar mensagens de sucesso após a exclusão.
+     * @return Redirecionamento para a lista de clientes.
+     */
     @PostMapping("/excluir/{id}")
     public String excluirCliente(@PathVariable Long id, RedirectAttributes redirectAttributes) {
         clienteService.delete(id);
