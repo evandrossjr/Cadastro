@@ -56,13 +56,6 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
 
-    env:
-      # Força o comportamento de usar Postgres só nesse job
-      SPRING_JPA_HIBERNATE_DDL_AUTO: create
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/mydatabase
-      SPRING_DATASOURCE_USERNAME: myuser
-      SPRING_DATASOURCE_PASSWORD: 1234567
-
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4

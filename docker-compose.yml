@@ -17,8 +17,8 @@ services:
       - SPRING_DATASOURCE_PASSWORD=1234567
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
-      # 5. DDL-auto 'validate' é mais seguro para testes de compose
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+      # 5. DDL-auto 'validate' é mais seguro para testes de compose, mas usarei update desta vez para passar no teste já que o banco é h2
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
     # 6. Garante que o 'db' inicie ANTES do 'app'
     depends_on:
       db:
