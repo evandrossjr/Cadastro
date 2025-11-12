@@ -22,6 +22,7 @@
                         <th>Nome Completo</th>
                         <th>Email</th>
                         <th>Telefone</th>
+                        <th>Data de Registro</th>
                         <th>Ações</th>
                     </tr>
                     </thead>
@@ -29,8 +30,15 @@
                     <th:block th:each="cliente : ${clientes}">
                         <tr th:id="${'cliente-row-' + cliente.id}">
                             <td th:text="${cliente.nomeCompleto}">Nome do Cliente</td>
-                            <td th:text="${cliente.email}">email@example.com</td>
-                            <td th:text="${cliente.telefone}"> (XX) XXXX-XXXX </td>
+                            <td th:text="${cliente.emailAdicional != null and cliente.emailAdicional != ''}
+                                 ? ${cliente.email} + ' / ' + ${cliente.emailAdicional}
+                                 : ${cliente.email}">
+                                email@example.com</td>
+                            <td th:text="${cliente.telefoneAdicional != null and cliente.telefoneAdicional != ''}
+                                 ? ${cliente.telefone} + ' / ' + ${cliente.telefoneAdicional}
+                                 : ${cliente.telefone}">
+                                (XX) XXXX-XXXX </td>
+                            <td th:text="${#temporals.format(cliente.dataRegistro, 'dd/MM/yyyy')}">XX/XX/XXXX</td>
                             <td>
                                 <button class="btn btn-sm btn-info toggle-contatos"
                                         th:data-target="${'#contatos-cliente-' + cliente.id}"
@@ -60,13 +68,15 @@
                                 <ul th:unless="${#lists.isEmpty(cliente.contatos)}" class="list-unstyled">
                                     <li th:each="contato : ${cliente.contatos}">
                                         <strong><span th:text="${contato.nomeCompleto}"></span>:</strong>
-                                        <span th:text="${contato.telefone}"></span>
-                                        <span > / </span>
-                                        <span th:text="${contato.telefoneAdicional}"></span>
-                                        <span > / </span>
-                                        <span th:text="${contato.email}"></span>
-                                        <span > / </span>
-                                        <span th:text="${contato.emailAdicional}"></span>
+
+                                        <span th:text="${contato.emailAdicional != null and contato.emailAdicional != ''}
+                                             ? ${contato.email} + ' / ' + ${contato.emailAdicional} + ' / '
+                                             : ${contato.email} + ' / '">
+                                            email@example.com</span>
+                                        <span th:text="${contato.telefoneAdicional != null and contato.telefoneAdicional != ''}
+                                             ? ${contato.telefone} + ' / ' + ${contato.telefoneAdicional}
+                                             : ${contato.telefone}">
+                                            (XX) XXXX-XXXX </span>
                                     </li>
                                 </ul>
                             </div>

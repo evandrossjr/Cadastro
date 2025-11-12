@@ -44,9 +44,8 @@ public class Cliente {
 
     private String emailAdicional;
 
-    @CreationTimestamp // <-- Use isso
     @Column(name = "data_registro", nullable = false, updatable = false)
-    private LocalDate dataRegistro = LocalDate.now();
+    private LocalDate dataRegistro;
 
     @ManyToMany // (Ou @OneToMany, dependendo da sua regra de negócio)
     @JoinTable(

@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,19 +71,23 @@ class ClienteWebController {
     @PostMapping("/cadastro")
     public String salvarViaFormulario(@ModelAttribute ClienteDTO dto, RedirectAttributes redirectAttributes, Model model) {
         try {
-            clienteService.insert(dto);
-            redirectAttributes.addFlashAttribute("mensagem", "Cliente \"" + dto.nomeCompleto() + "\" cadastrado com sucesso!");
+            ClienteDTO clienteSalvo = clienteService.insert(dto);
+
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String dataFormatada = clienteSalvo.dataRegistro().format(formatter);
+
+            redirectAttributes.addFlashAttribute("mensagem", "Cliente \"" + dto.nomeCompleto() + "\" cadastrado com sucesso! Data de Registro: " + dataFormatada);
             return "redirect:/cliente/cadastro";
         } catch (Exception e) {
             System.err.println("Erro ao cadastrar cliente: " + e.getMessage());
             e.printStackTrace();
             model.addAttribute("erro", "Erro ao cadastrar cliente: " + e.getMessage());
-            model.addAttribute("cliente", dto); // importante: mesmo nome usado no formulário
+            model.addAttribute("cliente", dto);
             model.addAttribute("titulo", "Cadastro de Clientes");
-            model.addAttribute("conteudo", "cadastroCliente"); // caminho do template parcial
-            model.addAttribute("todosOsContatos", contatoService.findAll()); // se houver select de contatos
+            model.addAttribute("conteudo", "cadastroCliente");
+            model.addAttribute("todosOsContatos", contatoService.findAll());
 
-            return "layout"; // volta pelo layout
+            return "layout";
         }
     }
 

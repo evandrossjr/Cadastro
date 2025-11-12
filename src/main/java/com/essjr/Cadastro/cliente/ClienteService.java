@@ -53,8 +53,7 @@ public class ClienteService {
             // Busca todos os contatos da lista de IDs
             List<Contato> contatosSelecionados = contatoRepository.findAllById(dto.contatosIds());
 
-            // Adiciona os contatos encontrados ao cliente
-            // (Assumindo que você tem um 'Set<Contato> contatos' na sua entidade Cliente)
+
             obj.setContatos(new HashSet<>(contatosSelecionados));
         }
 

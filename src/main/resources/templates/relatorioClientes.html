@@ -33,8 +33,14 @@
     <th:block th:each="cliente : ${clientes}">
 
       <tr class="table-primary"> <td th:text="${cliente.nomeCompleto}">Cliente 1</td>
-        <td th:text="${cliente.telefone} + ' / ' + ${cliente.telefoneAdicional}">tel 1 / tel 2</td>
-        <td th:text="${cliente.email} + ' / ' + ${cliente.emailAdicional}">email 1 / email 2</td>
+        <td th:text="${cliente.emailAdicional != null and cliente.emailAdicional != ''}
+             ? ${cliente.email} + ' / ' + ${cliente.emailAdicional}
+             : ${cliente.email}">
+          email@example.com</td>
+        <td th:text="${cliente.telefoneAdicional != null and cliente.telefoneAdicional != ''}
+             ? ${cliente.telefone} + ' / ' + ${cliente.telefoneAdicional}
+             : ${cliente.telefone}">
+          (XX) XXXX-XXXX </td>
         <td th:text="${#temporals.format(cliente.dataRegistro, 'dd/MM/yyyy')}">dias/mês</td>
       </tr>
 
@@ -43,8 +49,14 @@
           <i class="fas fa-user-friends me-2"></i>
           <span th:text="${contato.nomeCompleto}">Contato 1</span>
         </td>
-        <td th:text="${contato.telefone} + ' / ' + ${contato.telefoneAdicional}">tel 1 / tel 2</td>
-        <td th:text="${contato.email} + ' / ' + ${contato.emailAdicional}">email 1 / email 2</td>
+        <td th:text="${contato.emailAdicional != null and contato.emailAdicional != ''}
+             ? ${contato.email} + ' / ' + ${contato.emailAdicional}
+             : ${contato.email}">
+          email@example.com</td>
+        <td th:text="${contato.telefoneAdicional != null and contato.telefoneAdicional != ''}
+             ? ${contato.telefone} + ' / ' + ${contato.telefoneAdicional}
+             : ${contato.telefone}">
+          (XX) XXXX-XXXX </td>
         <td></td>
       </tr>
 

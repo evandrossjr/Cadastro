@@ -62,9 +62,9 @@ public class DataLoader implements CommandLineRunner {
             // Etapa C: Ligar os Clientes e Contatos (Criar as relações)
             linkClientesContatos(savedClientes, savedContatos);
 
-            System.out.println("=========================================");
-            System.out.println("Data Loader: Clientes e Contatos carregados.");
-            System.out.println("=========================================");
+            System.out.println("===============================================================");
+            System.out.println("Data Loader: Usuários de teste, Clientes e Contatos carregados.");
+            System.out.println("===============================================================");
         }
     }
 
@@ -139,7 +139,7 @@ public class DataLoader implements CommandLineRunner {
         // Salva as alterações (o JPA/Hibernate vai preencher a tabela cliente_contato)
         clienteRepository.saveAll(clientes);
 
-        System.out.println("Usuários de teste salvos com sucesso!");
+
     };
 
 }

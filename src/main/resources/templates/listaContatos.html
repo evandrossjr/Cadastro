@@ -28,8 +28,14 @@
                     <tbody>
                     <tr th:each="contato : ${contatos}">
                         <td th:text="${contato.nomeCompleto}">Nome do Contato</td>
-                        <td th:text="${contato.email}">email@example.com</td>
-                        <td th:text="${contato.telefone}"> (XX) XXXX-XXXX </td>
+                        <td th:text="${contato.emailAdicional != null and contato.emailAdicional != ''}
+                             ? ${contato.email} + ' / ' + ${contato.emailAdicional}
+                             : ${contato.email}">
+                            email@example.com</td>
+                        <td th:text="${contato.telefoneAdicional != null and contato.telefoneAdicional != ''}
+                             ? ${contato.telefone} + ' / ' + ${contato.telefoneAdicional}
+                             : ${contato.telefone}">
+                            (XX) XXXX-XXXX </td>
                         <td>
                             <a th:href="@{/contato/editar/{id}(id=${contato.id})}" class="btn btn-sm btn-primary me-2">
                                 <i class="fas fa-edit"></i> Editar

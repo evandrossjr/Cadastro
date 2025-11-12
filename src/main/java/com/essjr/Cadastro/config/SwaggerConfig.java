@@ -19,12 +19,4 @@ public class SwaggerConfig {
                 .build();
     }
 
-    @Bean
-    public GroupedOpenApi webGroup() {
-        return GroupedOpenApi.builder()
-                .group("Web (Thymeleaf)")
-                .pathsToMatch("/**")
-                .packagesToExclude("/api/**")
-                .build();
-    }
 }
