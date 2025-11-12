@@ -76,8 +76,12 @@ jobs:
 
   # Testar o docker-compose
   test-compose:
+
     runs-on: ubuntu-latest
     needs: build
+
+    env:
+      SPRING_JPA_HIBERNATE_DDL_AUTO: create
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -89,8 +93,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Subir stack com docker-compose
-        env:
-        SPRING_JPA_HIBERNATE_DDL_AUTO: create
         run: |
                               
           docker compose up -d
