@@ -49,6 +49,9 @@ jobs:
           docker push evandrossjr/cadastro_ca:latest
           docker push evandrossjr/cadastro_ca:${{ github.run_number }}
 
+      - name: Disparar deploy automático no Render
+        run: |
+          curl -X POST ${{ secrets.RENDER_DEPLOY_HOOK }}
   # ---------------------------------------
   # TESTE COM POSTGRES (APENAS PARA PIPELINE)
   # ---------------------------------------
