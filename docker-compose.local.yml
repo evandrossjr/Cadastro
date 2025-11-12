@@ -1,32 +1,24 @@
 services:
-  # ------------------------------------
-  # SERVIÇO DA APLICAÇÃO SPRING BOOT
-  # ------------------------------------
-  # 1. Renomeei o serviço para 'app' (mais simples)
   app:
-    # 2. Usa a imagem PRIVADA correta do seu Docker Hub
-    image: evandrossjr/cadastro_ca:latest
-    # 3. Garante que o GitHub Actions sempre baixe a imagem nova
-    pull_policy: always
+    # SUBSTITUA A LINHA 'image:' POR 'build:'
+    # image: evandrossjr/cadastro_ca:latest
+    build: .  # <-- Diz ao compose para construir usando o Dockerfile na pasta atual
+
+    # O resto é igual
+    pull_policy: never # Garante que ele não tente baixar
     ports:
       - "8080:8080"
     environment:
-      # 4. Aponta a aplicação para o serviço 'db' (Postgres)
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/mydatabase
       - SPRING_DATASOURCE_USERNAME=myuser
       - SPRING_DATASOURCE_PASSWORD=1234567
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=org.postgresql.Driver
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
       # 5. DDL-auto 'validate' é mais seguro para testes de compose
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
-    # 6. Garante que o 'db' inicie ANTES do 'app'
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create
     depends_on:
       db:
-        condition: service_healthy # Espera o banco estar saudável
-
-  # ------------------------------------
-  # SERVIÇO DO BANCO DE DADOS POSTGRES
-  # ------------------------------------
+        condition: service_healthy
   db:
     image: postgres:14-alpine
     environment:
