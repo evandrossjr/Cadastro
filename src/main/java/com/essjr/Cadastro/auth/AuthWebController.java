@@ -13,11 +13,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class AuthWebController {
 
-    private final AppUserService appUserService;
+    private final AuthService authService;
     private final JpaUserDetailsService jpaUserDetailsService;
 
-    public AuthWebController(AppUserService appUserService, JpaUserDetailsService jpaUserDetailsService) {
-        this.appUserService = appUserService;
+    public AuthWebController(AuthService authService, JpaUserDetailsService jpaUserDetailsService) {
+        this.authService = authService;
         this.jpaUserDetailsService = jpaUserDetailsService;
     }
 
@@ -58,8 +58,8 @@ public class AuthWebController {
 
         // 2. Tenta registrar o usuário
         try {
-            // Chama o 'AppUserService' que corrigimos
-            appUserService.registerUser(userDTO, AppUserRole.REGULAR);
+            // Chama o 'AuthService' que corrigimos
+            authService.registerUser(userDTO, AppUserRole.REGULAR);
 
         } catch (IllegalStateException e) {
             // 3. Captura o erro "Email já cadastrado" do service

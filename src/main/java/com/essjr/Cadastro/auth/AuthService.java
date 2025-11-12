@@ -9,13 +9,11 @@ import org.springframework.stereotype.Service;
 
 
 @Service
-public class AppUserService {
+public class AuthService {
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // --- CORREÇÃO AQUI ---
-    // Receba o PasswordEncoder como um parâmetro (Injeção de Dependência)
-    public AppUserService(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(AppUserRepository appUserRepository, PasswordEncoder passwordEncoder) {
         this.appUserRepository = appUserRepository;
         this.passwordEncoder = passwordEncoder; // Use o bean injetado
     }
@@ -28,7 +26,6 @@ public class AppUserService {
         AppUser newUser = new AppUser();
         newUser.setName(userDTO.name());
         newUser.setEmail(userDTO.email());
-        // Agora isso usa o bean correto
         newUser.setPasswordHash(passwordEncoder.encode(userDTO.password()));
         newUser.setRole(role);
 

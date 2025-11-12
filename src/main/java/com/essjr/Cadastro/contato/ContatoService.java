@@ -61,37 +61,36 @@ public class ContatoService {
     }
 
     public ContatoDTO update(Long id, ContatoDTO dto){
-        try{
-            Contato entity = contatoRepository
-                    .findById(id).orElseThrow(() -> new EntityNotFoundException("Contato não encontrado com o: " + id));
 
-            Contato updates = ContatoMapper.toEntity(dto);
-            updateData(entity, updates);
+        Contato entity = contatoRepository
+                .findById(id).orElseThrow(() -> new EntityNotFoundException("Contato não encontrado com o: " + id));
 
-            Contato updated = contatoRepository.save(entity);
-            return ContatoMapper.toDTO(updated);
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar o Contato: " + e.getMessage(), e);
-        }
+        Contato updates = ContatoMapper.toEntity(dto);
+        updateData(entity, updates);
+
+        Contato updated = contatoRepository.save(entity);
+        return ContatoMapper.toDTO(updated);
+
     }
 
     private void updateData(Contato entity, Contato obj) {
         entity.setNomeCompleto(obj.getNomeCompleto());
-        entity.setTelefone(obj.getTelefone());
-        entity.setTelefoneAdicional(obj.getTelefoneAdicional());
         entity.setEmail(obj.getEmail());
         entity.setEmailAdicional(obj.getEmailAdicional());
+        entity.setTelefone(obj.getTelefone());
+        entity.setTelefoneAdicional(obj.getTelefoneAdicional());
+
 
     }
 
     public List<ContatoDTO> findByNomeCompleto(String nomeCompleto) {
-        return contatoRepository.findByNomeCompleto(nomeCompleto);
+        return contatoRepository.findByNomeCompleto(nomeCompleto).stream().map(ContatoMapper::toDTO).toList();
     }
 
     public List<ContatoDTO> findAllByIds(List<Long> ids) {
         // Busca as entidades e converte para DTO
         return contatoRepository.findAllById(ids).stream()
-                .map(ContatoMapper::toDTO) // (Supondo que você tenha um ContatoMapper)
+                .map(ContatoMapper::toDTO)
                 .toList();
     }
 

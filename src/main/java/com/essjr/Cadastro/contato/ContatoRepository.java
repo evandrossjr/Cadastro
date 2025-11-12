@@ -10,9 +10,6 @@ public interface ContatoRepository extends JpaRepository<Contato, Long> {
 
     boolean existsByEmail(String email);
 
-    @Query("SELECT DISTINCT c.nomeCompleto FROM Contato c")
-    List<String> findEspecialidades();
-
-    List<ContatoDTO> findByNomeCompleto(String NomeCompleto);
+    List<Contato> findByNomeCompleto(String NomeCompleto);
 
 }

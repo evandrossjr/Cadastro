@@ -11,15 +11,15 @@ public interface ClienteRepository extends JpaRepository<Cliente, Long> {
 
     boolean existsByEmail(String email);
 
+    /**
+     * Query para trazer os clientes que possuem contatos cadastrados.
+     */
     @Query("SELECT DISTINCT c FROM Cliente c LEFT JOIN FETCH c.contatos")
     List<Cliente> findAllWithContatos();
 
     /**
      * Procura por um cliente com um dado e-mail, mas que NÃO TENHA o ID especificado.
-     * Isso é usado para checar duplicatas ao ATUALIZAR um usuário.
-     * @param email O e-mail para checar
-     * @param id O ID do usuário atual (que queremos ignorar na busca)
-     * @return Um Optional contendo o cliente duplicado, se houver
+     * Isso é usado para checar duplicidade ao atualizar um usuário.
      */
     Optional<Cliente> findByEmailAndIdNot(String email, Long id);
 

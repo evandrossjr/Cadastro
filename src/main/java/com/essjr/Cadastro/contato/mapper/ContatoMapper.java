@@ -10,10 +10,11 @@ public class ContatoMapper {
         return new ContatoDTO(
                 contato.getId(),
                 contato.getNomeCompleto(),
-                contato.getTelefone(),
-                contato.getTelefoneAdicional(),
                 contato.getEmail(),
-                contato.getEmailAdicional()
+                contato.getEmailAdicional(),
+                contato.getTelefone(),
+                contato.getTelefoneAdicional()
+
         );
     }
 
@@ -22,10 +23,11 @@ public class ContatoMapper {
         Contato contato = new Contato();
         contato.setId(dto.id());
         contato.setNomeCompleto(dto.nomeCompleto());
-        contato.setTelefone(dto.telefone());
-        contato.setTelefoneAdicional(dto.telefoneAdicional());
         contato.setEmail(dto.email());
         contato.setEmailAdicional(dto.emailAdicional());
+        contato.setTelefone(dto.telefone());
+        contato.setTelefoneAdicional(dto.telefoneAdicional());
+
         return contato;
     }
 }

@@ -25,17 +25,20 @@ public class ClienteService {
     @Autowired
     private ContatoRepository contatoRepository;
 
+    @Transactional
     public List<ClienteDTO> findAll(){
 
         return clienteRepository.findAll().stream().map(ClienteMapper::toDTO).toList();
     }
 
+    @Transactional
     public ClienteDTO findById(Long id){
         Cliente cliente = clienteRepository.findById(id).
                 orElseThrow(()-> new ResourceAccessException("Cliente não encontrado"));
         return ClienteMapper.toDTO(cliente);
     }
 
+    @Transactional
     public ClienteDTO insert(ClienteDTO dto){
         if (clienteRepository.existsByEmail(dto.email())) {
             throw new IllegalArgumentException("E-mail já cadastrado.");
